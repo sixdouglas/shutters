@@ -1,0 +1,41 @@
+extends ./template/layout
+
+block content
+    +menu("profile")
+
+    .container
+        if sessionFlash && sessionFlash.message
+            if sessionFlash.type === "success"
+                .row
+                    .col-md-4.col-md-offset-4.col-sm-6.col-sm-offset-2.col-xs-12.col-xs-offset-0
+                        .alert.alert-success.alert-dismissable
+                            p <strong>Success</strong> #{ sessionFlash.message }
+
+        .row
+            .col-md-4.col-md-offset-4.col-sm-6.col-sm-offset-2.col-xs-12.col-xs-offset-0
+                +panel(user.username, "primary")
+                    .row.hidden
+                        .col-md-6 #{__("profile.id")}
+                        .col-md-6 #{user._id}
+                    .row
+                        .col-md-6 #{__("profile.username")}
+                        .col-md-6 #{user.username}
+                    .row
+                        .col-md-6 #{__("profile.name")}
+                        .col-md-6 #{user.displayName}
+                    if (user.emails)
+                        .row
+                            .col-md-6 #{__("profile.email")}
+                            .col-md-6 #{user.email}
+                    .row
+                        .col-md-12
+                            | &nbsp;
+                    .row
+                        .col-md-12.text-center
+                            a(href="/logout", title="#{__('profile.logout')}", alt="#{__('profile.logout')}") 
+                                button.btn.btn-default(type="button")
+                                    span.glyphicon.glyphicon-off
+                            | &nbsp
+                            a(href="/users/#{user._id}/edit", title="#{__('profile.editIt')}", alt="#{__('profile.editIt')}").hidden-xs
+                                button.btn.btn-default(type="button")
+                                    span.glyphicon.glyphicon-pencil(aria-hidden="true")

@@ -1,0 +1,19 @@
+extends ./template/layout
+
+block content
+    +menu("shutters")
+
+    if (ok)
+        if (ok === true && shutter)
+            +alert("success") #{__("shutters.updateOk", shutter.open !== true ? __("shutters.openRequest") : __("shutters.closeRequest"), shutter.displayName)}
+        
+        if (ok === false && shutter)
+            +alert("danger") #{__("shutters.updateKo", shutter.open !== true ? __("shutters.openRequest") : __("shutters.closeRequest"), shutter.displayName)}
+        
+        script.
+            $(".alert-success").fadeTo(2000, 500).slideUp(500, function(){
+                $(".alert-success").alert('close');
+            });
+
+    if (shutters)
+        +shuttersList(shutters)

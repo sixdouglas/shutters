@@ -1,0 +1,26 @@
+{
+	"siteTitle": "Home Tech",
+    "index": {
+        "enterLogin": "Enter your login and password",
+        "loggedAs": "You are connected as",
+        "username": "Username",
+        "password": "Password",
+        "submit": "Submit",
+        "cancel": "Cancel",
+        "logout": "Logout"
+    },
+    "menu": {
+        "index": "Index",
+        "shutters": "Shutters",
+        "profile": "Profile",
+        "logout": "Logout"
+    },
+    "profile": {
+        "userProfile": "Profile",
+        "id": "Id",
+        "username": "Username",
+        "name": "Name",
+        "email": "Email",
+        "logout": "Logout"
+    }
+}

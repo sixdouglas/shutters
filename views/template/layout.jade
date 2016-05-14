@@ -1,0 +1,20 @@
+include mixins
+include template
+doctype html
+html(lang="en")
+    meta( charset='utf-8' )
+    meta( http-equiv='X-UA-Compatible', content='IE=edge' )
+    meta( name='viewport', content='width=device-width, initial-scale=1.0' )
+    meta( name='description', content='Baking Bootstrap Snippets with Jade' )
+    
+    title= title
+
+    //- Bootswatch Theme
+    //+bootswatch("lumen")
+    
+    +bootstrap()
+    link(rel='stylesheet', href='/stylesheets/style.css')
+
+    body(style="padding-bottom:10rem;")
+        .container
+            block content

@@ -1,0 +1,43 @@
+extends ./template/layout
+
+block content
+    +menu("profile")
+
+    .panel.panel-default
+        .panel-body
+
+            if sessionFlash && sessionFlash.message
+                if sessionFlash.type === "error"
+                    .alert.alert-danger.alert-dismissable
+                        p <strong>Error</strong> #{ sessionFlash.message }
+
+            form.form-horizontal(role='form', action="/users/#{user._id}/edit", method="post")
+
+                .form-group.hidden
+                    label.col-sm-2 #{__("profile.id")}
+                    .col-sm-10
+                        input.form-control(type='text', name="id", id="id", placeholder='#{__("profile.id")}', value="#{user._id}", disabled)
+                .form-group
+                    label.col-sm-2(for="username") #{__("profile.username")}
+                    .col-sm-10
+                        input.form-control(type='text', id="username", name="username", placeholder='#{__("profile.username")}', value="#{user.username}")
+                .form-group
+                    label.col-sm-2(for="displayName") #{__("profile.name")}
+                    .col-sm-10
+                        input.form-control(type='text', id="displayName", name="displayName", placeholder='#{__("profile.name")}', value="#{user.displayName}")
+                .form-group
+                    label.col-sm-2(for="email") #{__("profile.email")}
+                    .col-sm-10
+                        input.form-control(type='text', id="email", name="email", placeholder='#{__("profile.email")}', value="#{user.email}")
+                .form-group
+                    label.col-sm-2(for="password") #{__("profile.password")}
+                    .col-sm-10
+                        input.form-control(type='password', id="password", name="password", placeholder='#{__("profile.password")}')
+                .form-group
+                    label.col-sm-2(for="repassword") #{__("profile.repassword")}
+                    .col-sm-10
+                        input.form-control(type='password', id="repassword", name="repassword", placeholder='#{__("profile.repassword")}')
+                button.btn.btn-primary(type='submit') #{__("profile.submit")}
+                | &nbsp
+                a(href='/users/profile')
+                    button.btn.btn-default(type="button") #{__("shutter.cancel")}

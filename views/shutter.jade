@@ -1,0 +1,36 @@
+extends ./template/layout
+
+block content
+
+    +menu("shutters")
+
+    .panel.panel-default
+        .panel-body
+            form.form-horizontal(role='form', action="/shutters/#{shutter._id}/edit", method="post")
+                .form-group.hidden
+                    label.col-sm-2 #{__("shutter.id")}
+                    .col-sm-10
+                        input.form-control(type='text', name="id", id="id", placeholder='#{__("shutter.id")}', value="#{shutter._id}", disabled)
+                .form-group
+                    label.col-sm-2(for="name") #{__("shutter.name")}
+                    .col-sm-10
+                        input.form-control(type='text', name="name", id="name", placeholder='#{__("shutter.name")}', value="#{shutter.name}")
+                .form-group
+                    label.col-sm-2(for="displayName") #{__("shutter.displayName")}
+                    .col-sm-10
+                        input.form-control(type='text', name="displayName", id="displayName", placeholder='#{__("shutter.displayName")}', value="#{shutter.displayName}")
+                .form-group
+                    label.col-sm-2(for="remoteControlKey") #{__("shutter.key")}
+                    .col-sm-10
+                        input.form-control(type='text', name="remoteControlKey", id="remoteControlKey", placeholder='#{__("shutter.key")}', value="#{shutter.remoteControlKey}")
+                .form-group
+                    label.col-sm-2(for="state") #{__("shutter.state")}
+                    .col-sm-10
+                        .radio
+                            +radioLabel("state", "state", "true", shutter.open, __("shutter.openState"))
+                        .radio
+                            +radioLabel("state", "state", "false", !shutter.open, __("shutter.closeState"))
+                button.btn.btn-primary(type='submit') #{__("shutter.submit")}
+                | &nbsp
+                a(href='/shutters/list')
+                    button.btn.btn-default(type="button") #{__("shutter.cancel")}

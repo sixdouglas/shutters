@@ -1,0 +1,23 @@
+extends ./template/layout
+
+block content
+
+
+    +menu("index")
+    
+    if (!user)
+        form(role='form', action="/login", method="post").form-signin
+            h2.form-signin-heading #{__('index.enterLogin')}
+            
+                .form-group
+                    label(for="username").sr-only #{__("index.username")}
+                    input.form-control(type='text', id="username", name="username", placeholder='#{__("index.username")}')
+                .form-group
+                    label(for="password").sr-only #{__("index.password")}
+                    input.form-control(type='password', name="password", placeholder='#{__("index.password")}')
+                button.btn.btn-lg.btn-primary.btn-block(type='submit') #{__("index.submit")}
+
+    if (user)
+        p #{__("index.loggedAs")} #{user.username}
+        a(href="/logout") #{__("index.logout")}
+
