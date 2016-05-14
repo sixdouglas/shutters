@@ -1,5 +1,6 @@
 var database = require('./database');
 var winston = require('winston');
+var passwordHash = require('password-hash');
 var logger = winston.loggers.get('default');
 
 exports.findUserById = function(id, cb) {
@@ -33,6 +34,10 @@ exports.findByUsername = function(username, cb) {
 
 exports.update = function(id, username, displayName, email, password, cb) {
     logger.info('update(User): ' + id + ', username: ' + username);
+    var hashed = password;
+    if (!passwordHash.isHashed(password)) {
+        hashed = passwordHash.generate(password);
+    }
     database.users.update({
         _id : id
     }, {
@@ -40,7 +45,7 @@ exports.update = function(id, username, displayName, email, password, cb) {
             username : username,
             displayName : displayName,
             email : email,
-            password : password
+            password : hashed
         }
     }, {
         returnUpdatedDocs : true,
