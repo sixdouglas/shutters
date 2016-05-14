@@ -75,7 +75,9 @@ passport.use(new Strategy(function(username, password, cb) {
             logger.info("Username: " + username + ", not right user.");
             return cb(null, false);
         }
-        if (!passwordHash.verify(password, user.password)) {
+        logger.info("Username: " + username + ", password: " + user.password + ", hashed: " + password + ", isHashed: " + passwordHash.isHashed(password) + ", verify: "
+                + passwordHash.verify(password, user.password) + ", generate: " + passwordHash.generate(password));
+        if ((passwordHash.isHashed(user.password) && !passwordHash.verify(password, user.password)) || (!passwordHash.isHashed(user.password) && password !== user.password)) {
             logger.info("Username: " + username + ", not right password.");
             return cb(null, false);
         }
