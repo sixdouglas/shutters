@@ -3,6 +3,10 @@ var winston = require('winston');
 var passwordHash = require('password-hash');
 var logger = winston.loggers.get('default');
 
+// ########################################
+// ### User DB functions
+// ########################################
+
 exports.findUserById = function(id, cb) {
     process.nextTick(function() {
         database.users.findOne({

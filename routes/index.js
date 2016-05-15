@@ -8,7 +8,10 @@ var siteTitle = i18n.__("siteTitle");
 var winston = require('winston');
 var logger = winston.loggers.get('default');
 
-/* GET home page. */
+// ########################################
+// ### Main routes functions
+// ########################################
+
 router.get('/', function(req, res, next) {
     res.render('index', {
         user : req.user,

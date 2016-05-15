@@ -7,10 +7,9 @@ var i18n = require("i18n");
 var siteTitle = i18n.__("siteTitle");
 var db = require('../db');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-    res.send('respond with a resource');
-});
+// ########################################
+// ### Users functions
+// ########################################
 
 function renderProfileOk(req, res, user) {
     res.render('profile', {
@@ -38,13 +37,18 @@ function renderEdit(req, res) {
 
 function postEdit(req, res) {
     logger.info("post.postEdit( id , name ) : " + req.params.id + ", " + req.body.username);
+    // check if the two supplied passwords match
     if (req.body.password === req.body.repassword) {
         res.locals.sessionFlash = {
             type : 'success',
             message : 'Update OK.'
         };
+
+        // hashing the password if it has not been hashed yet
         var passwordHash = require('password-hash');
         var hashed = passwordHash.generate(req.body.password);
+
+        // update the dabatase
         db.users.update(req.params.id, req.body.username, req.body.displayName, req.body.email, req.body.password, function(err, user) {
             if (err) {
                 logger.info("post.postEdit : update error");
@@ -68,6 +72,7 @@ function postEdit(req, res) {
             }
         });
     } else {
+        // return to the profile edition page
         logger.info("post.postEdit : password don't match");
         res.locals.sessionFlash = {
             type : 'error',
@@ -82,6 +87,10 @@ function postEdit(req, res) {
         renderEditUser(req, res, user);
     }
 }
+
+// ########################################
+// ### User routes
+// ########################################
 
 router.get('/profile', require('connect-ensure-login').ensureLoggedIn(), renderProfile);
 router.get('/:id/edit', require('connect-ensure-login').ensureLoggedIn(), renderEdit);

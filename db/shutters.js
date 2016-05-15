@@ -2,6 +2,10 @@ var database = require('./database');
 var winston = require('winston');
 var logger = winston.loggers.get('default');
 
+// ########################################
+// ### Shutters DB functions
+// ########################################
+
 exports.findShutterById = function(id, cb) {
     logger.info('findShutterById(ShutterId): ' + id);
     database.shutters.findOne({

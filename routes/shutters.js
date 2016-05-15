@@ -7,6 +7,10 @@ var i18n = require("i18n");
 var siteTitle = i18n.__("siteTitle");
 var db = require('../db');
 
+// ########################################
+// ### Shutters functions
+// ########################################
+
 function renderAll(req, res, ok, shutter) {
     logger.info("get.renderAll(ok, shutter): " + ok + ", " + shutter);
     res.render('shutters', {
@@ -89,6 +93,10 @@ function renderAction(req, res) {
         });
     });
 }
+
+// ########################################
+// ### Shutters routes
+// ########################################
 
 router.get('/list', require('connect-ensure-login').ensureLoggedIn(), renderList);
 router.get('/add', require('connect-ensure-login').ensureLoggedIn(), renderAdd);
