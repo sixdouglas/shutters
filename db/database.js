@@ -25,9 +25,7 @@ function initUsers() {
         username : 'douglas',
         password : hashed,
         displayName : 'Douglas SIX',
-        emails : [ {
-            value : 'six.douglas@gmail.com'
-        } ]
+        email : 'six.douglas@gmail.com'
     } ], function(err, newDocs) {
         // One document was inserted in the database
         // newDocs is an array with this document, augmented with its _id

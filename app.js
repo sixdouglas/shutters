@@ -125,8 +125,10 @@ app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, '/public/', 'favicon.ico')));
 
+// set logging format
 app.use(morgan(':remote-addr :remote-user [:date[iso]] :status :response-time :method :url'));
 
+// Session settings
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended : true
