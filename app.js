@@ -18,6 +18,36 @@ i18n.configure({
 });
 
 // ########################################
+// ### Scheduling ###
+// ########################################
+var schedule = require('node-schedule');
+var SolarTime = require('services/solarTime');
+
+var Shutter = require("cmd/shutter");
+// Every days at 1 AM recalculate the today's up and down time
+var rule = new schedule.RecurrenceRule();
+// hour is set to 3 to avoid problems with day saving light changes
+rule.hour = 3;
+
+schedule.scheduleJob(rule, function() {
+    var solarTime = new SolarTime([]);
+    var upTime = solarTime.getUpTime(new Date(), 50.6917, 2.8842);
+    var downTime = solarTime.getDownTime(new Date(), 50.6917, 2.8842);
+
+    schedule.scheduleJob(upTime, function() {
+        // Send the Shutters Up signal
+        var shutterCmd = new Shutter();
+        shutterCmd.openAll();
+    });
+
+    schedule.scheduleJob(downTime, function() {
+        // Send the Shutters Down signal
+        var shutterCmd = new Shutter();
+        shutterCmd.closeAll();
+    });
+});
+
+// ########################################
 // ### Application logging ###
 // ########################################
 

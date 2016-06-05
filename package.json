@@ -28,10 +28,17 @@
     "jade": "^1.11.0",
     "morgan": "^1.7.0",
     "nedb": "^1.8.0",
+    "node-schedule": "^1.1.0",
     "passport": "^0.2.2",
     "passport-local": "^1.0.0",
     "password-hash": "^1.2.2",
     "serve-favicon": "~2.3.0",
+    "suncalc": "^1.7.0",
+    "timezoner": "^0.1.9",
     "winston": "~2.2.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-datetime": "^1.4.1"
   }
 }
