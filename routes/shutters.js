@@ -3,6 +3,8 @@ var router = express.Router();
 var winston = require('winston');
 var logger = winston.loggers.get('default');
 
+var Shutter = require("../service/shutter");
+
 var i18n = require("i18n");
 var siteTitle = i18n.__("siteTitle");
 var db = require('../db');
@@ -71,26 +73,25 @@ function renderRemove(req, res) {
 
 function renderAction(req, res) {
     logger.info("get.renderAction(id, action): " + req.params.id + ", " + req.params.action);
-    var exec = require('child_process').exec;
-    var child = exec('dir *.js', function(error, stdout, stderr) {
-        if (error !== null) {
-            logger.info('exec error: #{error}');
+    var shutter = new Shutter();
+    if (req.params.action === "open") {
+        shutter.openOne(req.params.id);
+    }
+    if (req.params.action === "close") {
+        shutter.closeOne(req.params.id);
+    }
+    db.shutters.setShutterOpen(req.params.id, req.params.action, function(err, shutter) {
+        if (err === null) {
+            renderAll(req, res, true, shutter);
         } else {
-            logger.info('exec stdout: #{stdout}');
-        }
-        db.shutters.setShutterOpen(req.params.id, req.params.action, function(err, shutter) {
-            if (err === null) {
-                renderAll(req, res, true, shutter);
+            if (shutter !== null) {
+                renderAll(req, res, false, shutter);
             } else {
-                if (shutter !== null) {
-                    renderAll(req, res, false, shutter);
-                } else {
-                    res.render('error', {
-                        error : err
-                    });
-                }
+                res.render('error', {
+                    error : err
+                });
             }
-        });
+        }
     });
 }
 
