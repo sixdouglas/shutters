@@ -3,7 +3,7 @@ var router = express.Router();
 var winston = require('winston');
 var logger = winston.loggers.get('default');
 
-var Shutter = require("../service/shutter");
+var Shutter = require("../services/shuttersCommand");
 
 var i18n = require("i18n");
 var siteTitle = i18n.__("siteTitle");
