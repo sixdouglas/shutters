@@ -21,9 +21,9 @@ i18n.configure({
 // ### Scheduling ###
 // ########################################
 var schedule = require('node-schedule');
-var SolarTime = require('services/solarTime');
+var SolarTime = require('./services/solarTime');
 
-var Shutter = require("cmd/shutter");
+var Shutter = require("./services/shuttersCommand");
 // Every days at 1 AM recalculate the today's up and down time
 var rule = new schedule.RecurrenceRule();
 // hour is set to 3 to avoid problems with day saving light changes
