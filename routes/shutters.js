@@ -80,7 +80,7 @@ function renderAction(req, res) {
     if (req.params.action === "close") {
         shutter.closeOne(req.params.id);
     }
-    db.shutters.setShutterOpen(req.params.id, req.params.action, function(err, shutter) {
+    db.shutters.setShutterOpenState(req.params.id, req.params.action, function(err, shutter) {
         if (err === null) {
             renderAll(req, res, true, shutter);
         } else {

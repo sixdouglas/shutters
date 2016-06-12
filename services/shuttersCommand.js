@@ -1,6 +1,7 @@
 var winston = require('winston');
 var logger = winston.loggers.get('default');
 var exec = require('child_process').exec;
+var db = require('../db');
 
 var GPIO_DEFAULT_PATH = '/usr/local/bin/gpio';
 var PIN_SEND = "1";
@@ -67,6 +68,26 @@ Shutter.prototype.closeOne = function(id) {
 
 Shutter.prototype.openOne = function(id) {
     write(PIN_SEND, id + OPEN);
+};
+
+Shutter.prototype.closeAll = function() {
+    var shuttersList = db.shutters.listAllShutters();
+    if (shuttersList !== undefined) {
+        shuttersList.forEach(function(shutter) {
+            this.closeOne(shutter._id);
+            db.shutters.setShutterOpenState(shutter._id, "close");
+        });
+    }
+};
+
+Shutter.prototype.openAll = function() {
+    var shuttersList = db.shutters.listAllShutters();
+    if (shuttersList !== undefined) {
+        shuttersList.forEach(function(shutter) {
+            this.openOne(shutter._id);
+            db.shutters.setShutterOpenState(shutter._id, "open");
+        });
+    }
 };
 
 module.exports = Shutter;

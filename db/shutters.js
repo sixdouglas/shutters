@@ -77,8 +77,8 @@ exports.update = function(id, name, displayName, remoteControlKey, state, cb) {
 
 };
 
-exports.setShutterOpen = function(id, action, cb) {
-    logger.info('setShutterOpen(Shutter): ' + id + ', action: ' + action);
+exports.setShutterOpenState = function(id, action, cb) {
+    logger.info('setShutterOpenState(Shutter): ' + id + ', action: ' + action);
     database.shutters.update({
         _id : id
     }, {
@@ -94,7 +94,9 @@ exports.setShutterOpen = function(id, action, cb) {
             cb(null, doc);
         } else {
             logger.info('Shutter "' + id + '", not updated.');
-            cb(new Error('Shutter "' + id + '", not updated.'));
+            if (cb !== undefined && cb != null) {
+                cb(new Error('Shutter "' + id + '", not updated.'));
+            }
         }
     });
 
