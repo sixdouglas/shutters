@@ -9,7 +9,24 @@ block content
                 .row
                     .col-md-4.col-md-offset-4.col-sm-6.col-sm-offset-2.col-xs-12.col-xs-offset-0
                         .alert.alert-success.alert-dismissable
-                            p <strong>Success</strong> #{ sessionFlash.message }
+                            p 
+                                strong #{__("profile.success")}
+                                 #{ sessionFlash.message }
+            else
+                .row
+                    .col-md-4.col-md-offset-4.col-sm-6.col-sm-offset-2.col-xs-12.col-xs-offset-0
+                        .alert.alert-danger.alert-dismissable
+                            p 
+                                strong #{__("profile.problem")}
+                                 #{ sessionFlash.message }
+
+        script.
+            $(".alert-success").fadeTo(2000, 500).slideUp(500, function(){
+                $(".alert-success").alert('close');
+            });
+            $(".alert-danger").fadeTo(2000, 500).slideUp(500, function(){
+                $(".alert-danger").alert('close');
+            });
 
         .row
             .col-md-4.col-md-offset-4.col-sm-6.col-sm-offset-2.col-xs-12.col-xs-offset-0

@@ -1,68 +1,73 @@
 {
-	"siteTitle": "Home Tech",
-	"index": {
-		"enterLogin": "Identifiez-vous",
-		"loggedAs": "Vous êtes connectés en tant que",
-		"username": "Nom d'utilisateur",
-		"password": "Mot de passe",
-		"submit": "Envoyer",
-		"cancel": "Annuler",
-		"logout": "Déconnecter"
-	},
-	"menu": {
-		"index": "Accueil",
-		"shutters": "Volets",
-		"profile": "Profile",
-		"gpio": "GPIO",
-		"logout": "Déconnecter"
-	},
-	"profile": {
-		"userProfile": "Profile",
-		"id": "Id",
-		"username": "Identifiant",
-		"name": "Nom",
-		"email": "E-mail",
-		"logout": "Déconnecter",
-		"editIt": "Modifier",
-		"password": "Mot de passe",
-		"repassword": "Une deuxième fois",
-		"submit": "Soumettre"
-	},
-	"shutter": {
-		"shutter": "Volet %s",
-		"currentState": "Le volet %s est actuellement %s",
-		"openState": "ouvert",
-		"closeState": "fermé",
-		"openRequest": "ouverture",
-		"closeRequest": "fermeture",
-		"openAction": "Ouvrir",
-		"closeAction": "Fermer",
-		"whatToDo": "Que voulez vous faire ?",
-		"id": "Id",
-		"name": "Nom",
-		"submit": "Soumettre",
-		"cancel": "Annuler",
-		"key": "Clée",
-		"state": "Etat",
-		"displayName": "Nom d'affichage",
-		"closeIt": "Fermer",
-		"openIt": "Ouvrir",
-		"removeIt": "Supprimer",
-		"editIt": "Modifier",
-		"addIt": "Ajouter"
-	},
-	"shutters": {
-		"state": "Etat",
-		"name": "Nom",
-		"openRequest": "ouverture",
-		"closeRequest": "fermeture",
-		"updateOk": "La demande de %s du volet %s a bien été envoyée.",
-		"updateKo": "La demande de %s du volet %s n'a pa pu être envoyée."
-	},
-	"gpio": {
-		"emissionLink": "Emission CPP",
-		"receptionLink": "Reception CPP",
+    "siteTitle": "Home Tech",
+    "index": {
+        "enterLogin": "Identifiez-vous",
+        "loggedAs": "Vous êtes connectés en tant que",
+        "username": "Nom d'utilisateur",
+        "password": "Mot de passe",
+        "submit": "Envoyer",
+        "cancel": "Annuler",
+        "logout": "Déconnecter"
+    },
+    "menu": {
+        "index": "Accueil",
+        "shutters": "Volets",
+        "profile": "Profile",
+        "gpio": "GPIO",
+        "logout": "Déconnecter"
+    },
+    "profile": {
+        "userProfile": "Profile",
+        "id": "Id",
+        "username": "Identifiant",
+        "name": "Nom",
+        "email": "E-mail",
+        "logout": "Déconnecter",
+        "editIt": "Modifier",
+        "password": "Mot de passe",
+        "repassword": "Une deuxième fois",
+        "submit": "Soumettre",
+        "success": "Succès",
+        "problem": "Problème"
+    },
+    "shutter": {
+        "shutter": "Volet %s",
+        "currentState": "Le volet %s est actuellement %s",
+        "openState": "ouvert",
+        "closeState": "fermé",
+        "openRequest": "ouverture",
+        "closeRequest": "fermeture",
+        "openAction": "Ouvrir",
+        "closeAction": "Fermer",
+        "whatToDo": "Que voulez vous faire ?",
+        "id": "Id",
+        "name": "Nom",
+        "submit": "Soumettre",
+        "cancel": "Annuler",
+        "key": "Clée",
+        "state": "Etat",
+        "displayName": "Nom d'affichage",
+        "closeIt": "Fermer",
+        "openIt": "Ouvrir",
+        "removeIt": "Supprimer",
+        "editIt": "Modifier",
+        "addIt": "Ajouter"
+    },
+    "shutters": {
+        "state": "Etat",
+        "name": "Nom",
+        "openRequest": "ouverture",
+        "closeRequest": "fermeture",
+        "updateOk": "La demande de %s du volet %s a bien été envoyée.",
+        "updateKo": "La demande de %s du volet %s n'a pa pu être envoyée."
+    },
+    "gpio": {
+        "emissionLinkJava": "Emission Java",
+        "receptionLinkJava": "Reception Java",
+        "snifferLinkJava": "Sniffer Java",
+        "emissionLink": "Emission CPP",
+        "receptionLink": "Reception CPP",
         "snifferLink": "Sniffer CPP",
         "wiringpiSudo": "Using WiringPi without being root or doing a sudo."
-	}
+    }
 }

@@ -2,8 +2,9 @@ mixin menu(item)
     +nav(title, "dropdown_menu")
         if (user)
             +nav_item( "/shutters/list", item === "shutters" ) #{__("menu.shutters")}
-            +nav_item( "/users/profile", item === "profile" ) #{__("menu.profile")}
-            +nav_item( "/gpio", item === "gpio" ) #{__("menu.gpio")}
+            +nav_item( "/users/profile", item === "profile" )  #{__("menu.profile")}
+            +nav_item( "/gpio",          item === "gpio" )     #{__("menu.gpio")}
+            +nav_item( "/status",        item === "status" )   #{__("menu.status")}
             +nav_item( "/logout" ) #{__("menu.logout")}
 
 mixin shuttersList(shutters)
@@ -11,10 +12,11 @@ mixin shuttersList(shutters)
         .row.text-center.hidden-xs
             .col-md-3.col-md-offset-9.add-group-item
                 a(href="/shutters/add", title='#{__("shutter.addIt")}', alt='#{__("shutter.addIt")}')
-                    span.glyphicon.glyphicon-plus(aria-hidden="true")
+                    button.btn.btn-default
+                        span.glyphicon.glyphicon-plus(aria-hidden="true")
     
         each shutter, index in shutters
-            .row.list-group-item.text-center.vertical-center
+            .list-group-item.text-center.vertical-center
                 .col-md-9
                     .h4.text-left.list-group-item-heading #{shutter.name}
                     if (shutter.open === true)
@@ -24,16 +26,20 @@ mixin shuttersList(shutters)
                 .col-md-3
                     if (shutter.open === true)
                         a(href="/shutters/#{shutter._id}/#{shutter.remoteControlKey}/close", title='#{__("shutter.closeIt")}', alt='#{__("shutter.closeIt")}')
-                            span.glyphicon.glyphicon-menu-down(aria-hidden="true")
+                            button.btn.btn-success.btn-sm
+                                span.small.glyphicon.glyphicon-menu-down(aria-hidden="true")
                     if (shutter.open !== true)
                         a(href="/shutters/#{shutter._id}/#{shutter.remoteControlKey}/open", title="#{__('shutter.openIt')}", alt="#{__('shutter.openIt')}")
-                            span.glyphicon.glyphicon-menu-up(aria-hidden="true")
+                            button.btn.btn-warning.btn-sm
+                                span.small.glyphicon.glyphicon-menu-up(aria-hidden="true")
                     | &nbsp
                     a(href="/shutters/#{shutter._id}/edit", title="#{__('shutter.editIt')}", alt="#{__('shutter.editIt')}").hidden-xs
-                        span.glyphicon.glyphicon-pencil(aria-hidden="true")
+                        button.btn.btn-default.btn-sm
+                            span.small.glyphicon.glyphicon-pencil(aria-hidden="true")
                     | &nbsp
                     a(href="/shutters/#{shutter._id}/remove", title="#{__('shutter.removeIt')}", alt="#{__('shutter.removeIt')}").hidden-xs
-                        span.glyphicon.glyphicon-remove(aria-hidden="true")
+                        button.btn.btn-default.btn-sm
+                            span.small.glyphicon.glyphicon-remove(aria-hidden="true")
 
 mixin shuttersGrid(shutters)
     .row
