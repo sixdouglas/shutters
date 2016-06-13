@@ -13,10 +13,14 @@ exports.findShutterById = function(id, cb) {
     }, function(err, doc) {
         if (doc) {
             logger.info('Shutter: ' + doc.remoteControlKey);
-            cb(null, doc);
+            if (cb !== undefined && cb !== null) {
+                cb(null, doc);
+            }
         } else {
             logger.info('Shutter "' + id + '", not found.');
-            cb(null, null);
+            if (cb !== undefined && cb !== null) {
+                cb(null, null);
+            }
         }
     });
 };
@@ -28,10 +32,14 @@ exports.removeShutterById = function(id, cb) {
     }, function(err) {
         if (err !== null) {
             logger.info('Shutter: ' + id + " removed");
-            cb(null);
+            if (cb !== undefined && cb !== null) {
+                cb(null);
+            }
         } else {
             logger.error('Shutter "' + id + '", not removed.');
-            cb(err);
+            if (cb !== undefined && cb !== null) {
+                cb(err);
+            }
         }
     });
 };
@@ -42,10 +50,14 @@ exports.findByShutterName = function(shutterName, cb) {
         name : shutterName
     }, function(err, doc) {
         if (doc) {
-            cb(null, doc);
+            if (cb !== undefined && cb !== null) {
+                cb(null, doc);
+            }
         } else {
             logger.info('Shutter "' + shutterName + '", not found.');
-            cb(null, null);
+            if (cb !== undefined && cb !== null) {
+                cb(null, null);
+            }
         }
     });
 };
@@ -68,10 +80,14 @@ exports.update = function(id, name, displayName, remoteControlKey, state, cb) {
     }, function(err, numReplaced, doc) {
         if (numReplaced === 1) {
             logger.info('Shutter: ' + doc._id + ', displayName: ' + doc.displayName + ", open: " + doc.open);
-            cb(null, doc);
+            if (cb !== undefined && cb !== null) {
+                cb(null, doc);
+            }
         } else {
             logger.info('Shutter "' + id + '", not updated.');
-            cb(new Error('Shutter "' + id + '", not updated.'));
+            if (cb !== undefined && cb !== null) {
+                cb(new Error('Shutter "' + id + '", not updated.'));
+            }
         }
     });
 
@@ -91,10 +107,12 @@ exports.setShutterOpenState = function(id, action, cb) {
     }, function(err, numReplaced, doc) {
         if (numReplaced === 1) {
             logger.info('Shutter: ' + doc._id + ', displayName: ' + doc.displayName + ", open: " + doc.open);
-            cb(null, doc);
+            if (cb !== undefined && cb !== null) {
+                cb(null, doc);
+            }
         } else {
             logger.info('Shutter "' + id + '", not updated.');
-            if (cb !== undefined && cb != null) {
+            if (cb !== undefined && cb !== null) {
                 cb(new Error('Shutter "' + id + '", not updated.'));
             }
         }

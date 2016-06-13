@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -18,6 +20,26 @@ i18n.configure({
 });
 
 // ########################################
+// ### Application logging ###
+// ########################################
+
+var winston = require('winston');
+
+// setup default logger (no category)
+winston.loggers.add('default', {
+    console : {
+        colorize : 'true',
+        handleExceptions : true,
+        json : false,
+        level : 'silly',
+        label : 'default'
+    // , timestamp : true
+    }
+});
+
+var logger = winston.loggers.get('default');
+
+// ########################################
 // ### Scheduling ###
 // ########################################
 var schedule = require('node-schedule');
@@ -26,13 +48,20 @@ var SolarTime = require('./services/solarTime');
 var Shutter = require("./services/shuttersCommand");
 // Every days at 1 AM recalculate the today's up and down time
 var rule = new schedule.RecurrenceRule();
-// hour is set to 3 to avoid problems with day saving light changes
+// hour is set to 3:30 to avoid problems with day saving light changes
+// (remain in the same day and no minute overlaps)
 rule.hour = 3;
+rule.minute = 30;
+
+logger.info("Everyday scheduler rule: ", rule);
 
 schedule.scheduleJob(rule, function() {
     var solarTime = new SolarTime([]);
     var upTime = solarTime.getUpTime(new Date(), 50.6917, 2.8842);
     var downTime = solarTime.getDownTime(new Date(), 50.6917, 2.8842);
+
+    logger.info("  - Today upTime  : " + upTime);
+    logger.info("    Today downTime: " + downTime);
 
     schedule.scheduleJob(upTime, function() {
         // Send the Shutters Up signal
@@ -46,31 +75,6 @@ schedule.scheduleJob(rule, function() {
         shutterCmd.closeAll();
     });
 });
-
-// ########################################
-// ### Application logging ###
-// ########################################
-
-var winston = require('winston');
-
-// setup default logger (no category)
-winston.loggers.add('default', {
-    console : {
-        colorize : 'true',
-        handleExceptions : true,
-        json : false,
-        level : 'silly',
-        label : 'default',
-    },
-    file : {
-        filename : './logs/default.log',
-        level : 'silly',
-        json : false,
-        handleExceptions : true,
-    },
-});
-
-var logger = winston.loggers.get('default');
 
 // ########################################
 // ### Request logging ###
@@ -156,7 +160,9 @@ app.set('view engine', 'jade');
 app.use(favicon(path.join(__dirname, '/public/', 'favicon.ico')));
 
 // set logging format
-app.use(morgan(':remote-addr :remote-user [:date[iso]] :status :response-time :method :url'));
+// app.use(morgan(':remote-addr :remote-user [:date[iso]] :status :response-time
+// :method :url'));
+app.use(morgan(':status :response-time :method :url'));
 
 // Session settings
 app.use(bodyParser.json());
