@@ -50,8 +50,8 @@ var Shutter = require("./services/shuttersCommand");
 var rule = new schedule.RecurrenceRule();
 // hour is set to 3:30 to avoid problems with day saving light changes
 // (remain in the same day and no minute overlaps)
-rule.hour = 22;
-rule.minute = 09;
+rule.hour = 3;
+rule.minute = 30;
 
 logger.info("Everyday scheduler rule: ", rule);
 
@@ -59,12 +59,6 @@ schedule.scheduleJob(rule, function() {
     var solarTime = new SolarTime([]);
     var upTime = solarTime.getUpTime(new Date(), 50.6917, 2.8842);
     var downTime = solarTime.getDownTime(new Date(), 50.6917, 2.8842);
-
-    upTime.setHours(22);
-    upTime.setMinutes(10);
-
-    downTime.setHours(22);
-    downTime.setMinutes(11);
 
     logger.info("  - Today upTime  : " + upTime);
     logger.info("    Today downTime: " + downTime);
