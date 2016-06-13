@@ -62,32 +62,37 @@ function pulse(pin, waitMilli, state, callback) {
     }, waitMilli);
 }
 
-Shutter.prototype.closeOne = function(id) {
+function closeOne(id) {
     write(PIN_SEND, id + CLOSE);
 };
 
-Shutter.prototype.openOne = function(id) {
+function openOne(id) {
     write(PIN_SEND, id + OPEN);
 };
 
-Shutter.prototype.closeAll = function() {
+function closeAll() {
     var shuttersList = db.shutters.listAllShutters();
     if (shuttersList !== undefined) {
         shuttersList.forEach(function(shutter) {
-            this.closeOne(shutter._id);
+            closeOne(shutter._id);
             db.shutters.setShutterOpenState(shutter._id, "close");
         });
     }
 };
 
-Shutter.prototype.openAll = function() {
+function openAll() {
     var shuttersList = db.shutters.listAllShutters();
     if (shuttersList !== undefined) {
         shuttersList.forEach(function(shutter) {
-            this.openOne(shutter._id);
+            openOne(shutter._id);
             db.shutters.setShutterOpenState(shutter._id, "open");
         });
     }
 };
+
+Shutter.prototype.closeOne = closeOne;
+Shutter.prototype.openOne = openOne;
+Shutter.prototype.closeAll = closeAll;
+Shutter.prototype.openAll = openAll;
 
 module.exports = Shutter;
