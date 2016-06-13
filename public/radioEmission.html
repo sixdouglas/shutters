@@ -210,11 +210,13 @@
 <span style="color: #557799">#include &lt;stdio.h&gt;</span>
 <span style="color: #557799">#include &lt;sys/time.h&gt;</span>
 <span style="color: #557799">#include &lt;time.h&gt;</span>
+<span style="color: #557799">#include &lt;math.h&gt;</span>
 <span style="color: #557799">#include &lt;stdlib.h&gt;</span>
 <span style="color: #557799">#include &lt;sched.h&gt;</span>
 <span style="color: #557799">#include &lt;sstream&gt;</span>
 
 <span style="color: #888888">/*</span>
+<span style="color: #888888">Adapted by Douglas SIX</span>
 <span style="color: #888888">Par Idleman (idleman@idleman.fr - http://blog.idleman.fr)</span>
 <span style="color: #888888">Licence : CC by sa</span>
 <span style="color: #888888">Toutes question sur le blog ou par mail, possibilité de m&#39;envoyer des bières via le blog</span>
@@ -230,6 +232,24 @@
 string onoff;
 
 <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">log</span>(string a){
+    <span style="color: #888888">//char buffer[26];</span>
+    <span style="color: #888888">//int millisec;</span>
+    <span style="color: #888888">//struct tm* tm_info;</span>
+    <span style="color: #888888">//struct timeval tv;</span>
+
+    <span style="color: #888888">//gettimeofday(&tv, NULL);</span>
+
+    <span style="color: #888888">//millisec = lrint(tv.tv_usec/1000.0); // Round to nearest millisec</span>
+    <span style="color: #888888">//if (millisec>=1000) { // Allow for rounding up to nearest second</span>
+    <span style="color: #888888">//    millisec -=1000;</span>
+    <span style="color: #888888">//    tv.tv_sec++;</span>
+    <span style="color: #888888">//}</span>
+
+    <span style="color: #888888">//tm_info = localtime(&tv.tv_sec);</span>
+
+    <span style="color: #888888">//strftime(buffer, 26, "%F %X", tm_info);</span>
+    <span style="color: #888888">//printf("%s.%03d ", buffer, millisec);</span>
+
     <span style="color: #888888">//Décommenter pour avoir les logs</span>
     <span style="color: #888888">//cout &lt;&lt; a &lt;&lt; endl;</span>
 }
@@ -319,14 +339,14 @@ string onoff;
 
     <span style="color: #888888">// Sequence de verrou anoncant le départ du signal au recepeteur</span>
     digitalWrite(pin, HIGH);
-    delayMicroseconds(<span style="color: #0000DD; font-weight: bold">275</span>);     <span style="color: #888888">// un bit de bruit avant de commencer pour remettre les delais du recepteur a 0</span>
+    delayMicroseconds(<span style="color: #0000DD; font-weight: bold">275</span>);    <span style="color: #888888">// un bit de bruit avant de commencer pour remettre les delais du recepteur a 0</span>
     digitalWrite(pin, LOW);
-    delayMicroseconds(<span style="color: #0000DD; font-weight: bold">10560</span>);     <span style="color: #888888">// premier verrou de 9900µs</span>
+    delayMicroseconds(<span style="color: #0000DD; font-weight: bold">10560</span>);  <span style="color: #888888">// premier verrou de 9900µs</span>
     digitalWrite(pin, HIGH);   <span style="color: #888888">// high again</span>
-    delayMicroseconds(<span style="color: #0000DD; font-weight: bold">275</span>);      <span style="color: #888888">// attente de 275µs entre les deux verrous</span>
+    delayMicroseconds(<span style="color: #0000DD; font-weight: bold">275</span>);    <span style="color: #888888">// attente de 275µs entre les deux verrous</span>
     digitalWrite(pin, LOW);    <span style="color: #888888">// second verrou de 2675µs</span>
     delayMicroseconds(<span style="color: #0000DD; font-weight: bold">2730</span>);
-    digitalWrite(pin, HIGH);  <span style="color: #888888">// On reviens en état haut pour bien couper les verrous des données</span>
+    digitalWrite(pin, HIGH);   <span style="color: #888888">// On reviens en état haut pour bien couper les verrous des données</span>
 
     <span style="color: #888888">// Envoie du code emetteur (272946 = 1000010101000110010  en binaire)</span>
     <span style="color: #008800; font-weight: bold">for</span>(i<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">0</span>; i<span style="color: #333333">&lt;</span><span style="color: #0000DD; font-weight: bold">26</span>;i<span style="color: #333333">++</span>) {
@@ -351,7 +371,7 @@ string onoff;
     }
 
     digitalWrite(pin, HIGH);   <span style="color: #888888">// coupure données, verrou</span>
-    delayMicroseconds(<span style="color: #0000DD; font-weight: bold">275</span>);      <span style="color: #888888">// attendre 275µs</span>
+    delayMicroseconds(<span style="color: #0000DD; font-weight: bold">275</span>);    <span style="color: #888888">// attendre 275µs</span>
     digitalWrite(pin, LOW);    <span style="color: #888888">// verrou 2 de 2675µs pour signaler la fermeture du signal</span>
 }
 
@@ -381,14 +401,14 @@ string onoff;
         log(<span style="background-color: #fff0f0">&quot;envois du signal ON&quot;</span>);
         <span style="color: #008800; font-weight: bold">for</span>(<span style="color: #333399; font-weight: bold">int</span> i<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">0</span>;i<span style="color: #333333">&lt;</span><span style="color: #0000DD; font-weight: bold">5</span>;i<span style="color: #333333">++</span>){
             transmit(<span style="color: #007020">true</span>);            <span style="color: #888888">// envoyer ON</span>
-            delay(<span style="color: #0000DD; font-weight: bold">10</span>);                 <span style="color: #888888">// attendre 10 ms (sinon le socket nous ignore)</span>
+            <span style="color: #888888">//delay(10);                 // attendre 10 ms (sinon le socket nous ignore)</span>
         }
     }<span style="color: #008800; font-weight: bold">else</span>{
         <span style="color: #888888">//system(&quot;/etc/lcd/screen -p \&quot;Radio signal OFF...\&quot;&quot;);</span>
         log(<span style="background-color: #fff0f0">&quot;envois du signal OFF&quot;</span>);
         <span style="color: #008800; font-weight: bold">for</span>(<span style="color: #333399; font-weight: bold">int</span> i<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">0</span>;i<span style="color: #333333">&lt;</span><span style="color: #0000DD; font-weight: bold">5</span>;i<span style="color: #333333">++</span>){
             transmit(<span style="color: #007020">false</span>);           <span style="color: #888888">// envoyer OFF</span>
-            delay(<span style="color: #0000DD; font-weight: bold">10</span>);                 <span style="color: #888888">// attendre 10 ms (sinon le socket nous ignore)</span>
+            <span style="color: #888888">//delay(10);                 // attendre 10 ms (sinon le socket nous ignore)</span>
         }
     }
 
