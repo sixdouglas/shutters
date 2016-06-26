@@ -24,6 +24,12 @@ router.get('/index', function(req, res) {
         title : siteTitle
     });
 });
+router.get('/gpio', require('connect-ensure-login').ensureLoggedIn(), function(req, res) {
+    res.render('gpio', {
+        user : req.user,
+        title : siteTitle
+    });
+});
 router.get('/login', function(req, res) {
     res.render('index', {
         user : req.user,
