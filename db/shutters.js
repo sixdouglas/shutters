@@ -93,6 +93,29 @@ exports.update = function(id, name, displayName, remoteControlKey, state, cb) {
 
 };
 
+exports.insert = function(name, displayName, remoteControlKey, state, cb) {
+    logger.info('insert(Shutter): ' + displayName + ', state: ' + state);
+    database.shutters.insert({
+        name : name,
+        displayName : displayName,
+        remoteControlKey : remoteControlKey,
+        open : state
+    }, function(err, doc) {
+        if ((err === undefined || err === null)) {
+            logger.info('Shutter: ' + doc._id + ', displayName: ' + doc.displayName + ", open: " + doc.open);
+            if (cb !== undefined && cb !== null) {
+                cb(null, doc);
+            }
+        } else {
+            logger.info('Shutter "' + displayName + '", not created.');
+            if (cb !== undefined && cb !== null) {
+                cb(new Error('Shutter "' + displayName + '", not created.'));
+            }
+        }
+    });
+
+};
+
 exports.setShutterOpenState = function(id, action, cb) {
     logger.info('setShutterOpenState(Shutter): ' + id + ', action: ' + action);
     database.shutters.update({

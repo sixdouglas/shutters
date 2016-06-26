@@ -1,0 +1,49 @@
+#!/usr/bin/env node
+
+'use strict';
+
+var menu = require('node-menu');
+var db = require('../db');
+ 
+var TestObject = function() {
+    var self = this;
+    self.fieldA = 'FieldA';
+    self.fieldB = 'FieldB';
+}
+ 
+TestObject.prototype.printFieldA = function() {
+    console.log(this.fieldA);
+}
+ 
+TestObject.prototype.printFieldB = function(arg) {
+    console.log(this.fieldB + arg);
+}
+ 
+var testObject = new TestObject();
+ 
+menu.addDelimiter('-', 40, 'Main Menu')
+    .addItem(
+        'Add User',
+        function(displayName, login, password, email) {
+            db.users.insert(login, displayName, email, password, function (thing, doc) {
+                console.log("User inserted successfully !");
+            });
+        },
+        null,
+        [{'name': 'displayName', 'type': 'string'}, {'name': 'login', 'type': 'string'}, {'name': 'password', 'type': 'string'}, {'name': 'email', 'type': 'string'}])
+    .addItem(
+        'Add Shutter',
+        function(name, displayName, remoteControlKey, state) {
+            db.shutters.insert(name, displayName, remoteControlKey, state, function (thing, doc) {
+                console.log("Shutter inserted successfully !");
+            });
+        },
+        null,
+        [{'name': 'name', 'type': 'string'}, {'name': 'displayName', 'type': 'string'}, {'name': 'remoteControlKey', 'type': 'string'}, {'name': 'state', 'type': 'string'}])
+    .addDelimiter('*', 40)
+    .disableDefaultHeader() 
+    .customPrompt(function() { 
+        process.stdout.write("\nEnter your selection:\n"); 
+    }) 
+    .disableDefaultPrompt() 
+    .start();
