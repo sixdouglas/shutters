@@ -13,18 +13,21 @@ function Shutter() {
 }
 
 function write(pin, value, state, callback) {
+    var action;
     if (state === OPEN) {
         logger.info("opening: " + value);
+        action = "on";
     } else {
         logger.info("closing: " + value);
+        action = "off";
     }
 
     // radioEmission 17 20210234 0 on
-    var child = exec(GPIO_DEFAULT_PATH + " " + pin + " 0 " + value, function(error, stdout, stderr) {
+    var child = exec(GPIO_DEFAULT_PATH + " " + pin + " 0 " + value + " " + action, function(error, stdout, stderr) {
         if (error !== null) {
-            logger.error('exec [' + GPIO_DEFAULT_PATH + " " + pin + " 0 " + value + ']: ' + error);
+            logger.error('exec [' + GPIO_DEFAULT_PATH + " " + pin + ' 0 ' + value + ' ' + action + ']: ' + error);
         } else {
-            logger.debug('exec [' + GPIO_DEFAULT_PATH + " " + pin + " 0 " + value + ']: OK');
+            logger.debug('exec [' + GPIO_DEFAULT_PATH + " " + pin + ' 0 ' + value + ' ' + action + ']: OK');
             if (callback !== undefined) {
                 callback();
             }
@@ -32,19 +35,19 @@ function write(pin, value, state, callback) {
     });
 }
 
-function closeOne(id) {
-    write(PIN_SEND, id, CLOSE);
+function closeOne(key) {
+    write(PIN_SEND, key, CLOSE);
 }
 
-function openOne(id) {
-    write(PIN_SEND, id, OPEN);
+function openOne(key) {
+    write(PIN_SEND, key, OPEN);
 }
 
 function closeAll() {
     var shuttersList = db.shutters.listAllShutters();
     if (shuttersList !== undefined) {
         shuttersList.forEach(function(shutter) {
-            closeOne(shutter._id);
+            closeOne(shutter.remoteControlKey);
             db.shutters.setShutterOpenState(shutter._id, "close");
         });
     }
@@ -54,7 +57,7 @@ function openAll() {
     var shuttersList = db.shutters.listAllShutters();
     if (shuttersList !== undefined) {
         shuttersList.forEach(function(shutter) {
-            openOne(shutter._id);
+            openOne(shutter.remoteControlKey);
             db.shutters.setShutterOpenState(shutter._id, "open");
         });
     }

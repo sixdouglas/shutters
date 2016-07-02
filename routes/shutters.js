@@ -75,10 +75,10 @@ function renderAction(req, res) {
     logger.info("get.renderAction(id, action): " + req.params.id + ", " + req.params.action);
     var shutter = new Shutter();
     if (req.params.action === "open") {
-        shutter.openOne(req.params.id);
+        shutter.openOne(req.params.key);
     }
     if (req.params.action === "close") {
-        shutter.closeOne(req.params.id);
+        shutter.closeOne(req.params.key);
     }
     db.shutters.setShutterOpenState(req.params.id, req.params.action, function(err, shutter) {
         if (err === null) {
