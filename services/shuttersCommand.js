@@ -3,72 +3,42 @@ var logger = winston.loggers.get('default');
 var exec = require('child_process').exec;
 var db = require('../db');
 
-var GPIO_DEFAULT_PATH = '/usr/local/bin/gpio';
-var PIN_SEND = "1";
-var CLOSE = "0";
-var OPEN = "1";
+var GPIO_DEFAULT_PATH = '/usr/local/bin/radioEmission';
+var PIN_SEND = "17";
+var CLOSE = "on";
+var OPEN = "off";
 
 // services/shutter.js
 function Shutter() {
 }
 
-function mode(pin, modeVal, callback) {
-    if (modeVal === undefined || modeVal === "") {
-        modeVal = "out";
+function write(pin, value, state, callback) {
+    if (state === OPEN) {
+        logger.info("opening: " + value);
+    } else {
+        logger.info("closing: " + value);
     }
-    var child = exec(GPIO_DEFAULT_PATH + " mode " + pin + " " + modeVal, function(error, stdout, stderr) {
+
+    // radioEmission 17 20210234 0 on
+    var child = exec(GPIO_DEFAULT_PATH + " " + pin + " 0 " + value, function(error, stdout, stderr) {
         if (error !== null) {
-            logger.error('exec [' + GPIO_DEFAULT_PATH + " mode " + pin + " " + modeVal + ']: ' + error);
+            logger.error('exec [' + GPIO_DEFAULT_PATH + " " + pin + " 0 " + value + ']: ' + error);
         } else {
-            logger.debug('exec [' + GPIO_DEFAULT_PATH + " mode " + pin + " " + modeVal + ']: OK');
+            logger.debug('exec [' + GPIO_DEFAULT_PATH + " " + pin + " 0 " + value + ']: OK');
             if (callback !== undefined) {
                 callback();
             }
         }
     });
-}
-
-function write(pin, value, callback) {
-    var child = exec(GPIO_DEFAULT_PATH + " write " + pin + " " + value, function(error, stdout, stderr) {
-        if (error !== null) {
-            logger.error('exec [' + GPIO_DEFAULT_PATH + " write " + pin + " " + value + ']: ' + error);
-        } else {
-            logger.debug('exec [' + GPIO_DEFAULT_PATH + " write " + pin + " " + value + ']: OK');
-            if (callback !== undefined) {
-                callback();
-            }
-        }
-    });
-}
-
-function read(pin, callback) {
-    var child = exec(GPIO_DEFAULT_PATH + " read " + pin, function(error, stdout, stderr) {
-        if (error !== null) {
-            logger.error('exec [' + GPIO_DEFAULT_PATH + " read " + pin + ']: ' + error);
-        } else {
-            logger.debug('exec [' + GPIO_DEFAULT_PATH + " read " + pin + ']: OK');
-            if (callback !== undefined) {
-                callback();
-            }
-        }
-    });
-}
-
-function pulse(pin, waitMilli, state, callback) {
-    write(pin, state);
-    setTimeout(function() {
-        state = state === 1 ? 0 : 1;
-        write(pin, state, callback);
-    }, waitMilli);
 }
 
 function closeOne(id) {
-    write(PIN_SEND, id + CLOSE);
-};
+    write(PIN_SEND, id, CLOSE);
+}
 
 function openOne(id) {
-    write(PIN_SEND, id + OPEN);
-};
+    write(PIN_SEND, id, OPEN);
+}
 
 function closeAll() {
     var shuttersList = db.shutters.listAllShutters();
@@ -78,7 +48,7 @@ function closeAll() {
             db.shutters.setShutterOpenState(shutter._id, "close");
         });
     }
-};
+}
 
 function openAll() {
     var shuttersList = db.shutters.listAllShutters();
@@ -88,7 +58,7 @@ function openAll() {
             db.shutters.setShutterOpenState(shutter._id, "open");
         });
     }
-};
+}
 
 Shutter.prototype.closeOne = closeOne;
 Shutter.prototype.openOne = openOne;

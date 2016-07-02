@@ -54,14 +54,44 @@ exports.update = function(id, username, displayName, email, password, cb) {
     }, {
         returnUpdatedDocs : true,
         multi : false,
-        upsert : false
+        upsert : true
     }, function(err, numReplaced, doc) {
         if (numReplaced === 1) {
             logger.info('User: ' + doc._id + ', displayName: ' + doc.displayName + ", username: " + doc.username);
-            cb(null, doc);
+            if (cb !== undefined && cb !== null) {
+                cb(null, doc);
+            }
         } else {
             logger.info('User "' + id + '", not updated.');
-            cb(new Error('User "' + id + '", not updated.'));
+            if (cb !== undefined && cb !== null) {
+                cb(new Error('User "' + id + '", not updated.'));
+            }
+        }
+    });
+};
+
+exports.insert = function(username, displayName, email, password, cb) {
+    logger.info('insert(User): username: ' + username);
+    var hashed = password;
+    if (!passwordHash.isHashed(password)) {
+        hashed = passwordHash.generate(password);
+    }
+    database.users.insert({
+        username : username,
+        displayName : displayName,
+        email : email,
+        password : hashed
+    }, function(err, doc) {
+        if ((err === undefined || err === null)) {
+            logger.info('User: ' + doc._id + ', displayName: ' + doc.displayName + ", username: " + doc.username);
+            if (cb !== undefined && cb !== null) {
+                cb(null, doc);
+            }
+        } else {
+            logger.info('User "' + username + '", not created.');
+            if (cb !== undefined && cb !== null) {
+                cb(new Error('User "' + username + '", not created.'));
+            }
         }
     });
 };

@@ -3,6 +3,7 @@ mixin menu(item)
         if (user)
             +nav_item( "/shutters/list", item === "shutters" ) #{__("menu.shutters")}
             +nav_item( "/users/profile", item === "profile" ) #{__("menu.profile")}
+            +nav_item( "/gpio", item === "gpio" ) #{__("menu.gpio")}
             +nav_item( "/logout" ) #{__("menu.logout")}
 
 mixin shuttersList(shutters)

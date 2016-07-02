@@ -13,6 +13,7 @@
 		"index": "Accueil",
 		"shutters": "Volets",
 		"profile": "Profile",
+		"gpio": "GPIO",
 		"logout": "Déconnecter"
 	},
 	"profile": {
@@ -24,7 +25,7 @@
 		"logout": "Déconnecter",
 		"editIt": "Modifier",
 		"password": "Mot de passe",
-        "repassword": "Une deuxième fois",
+		"repassword": "Une deuxième fois",
 		"submit": "Soumettre"
 	},
 	"shutter": {
@@ -57,5 +58,11 @@
 		"closeRequest": "fermeture",
 		"updateOk": "La demande de %s du volet %s a bien été envoyée.",
 		"updateKo": "La demande de %s du volet %s n'a pa pu être envoyée."
+	},
+	"gpio": {
+		"emissionLink": "Emission CPP",
+		"receptionLink": "Reception CPP",
+        "snifferLink": "Sniffer CPP",
+        "wiringpiSudo": "Using WiringPi without being root or doing a sudo."
 	}
 }
