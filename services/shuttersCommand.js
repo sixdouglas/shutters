@@ -27,8 +27,20 @@ function write(pin, value, state, callback) {
     var child = exec(GPIO_DEFAULT_PATH + " " + pin + " 0 " + value + " " + action, function(error, stdout, stderr) {
         if (error !== null) {
             logger.error('exec [' + GPIO_DEFAULT_PATH + " " + pin + ' 0 ' + value + ' ' + action + ']: ' + error);
+            if (stdout !== undefined) {
+                logger.info('    stdout: ' + stdout);
+            }
+            if (stderr !== undefined) {
+                logger.info('    stderr: ' + stderr);
+            }
         } else {
             logger.info('exec [' + GPIO_DEFAULT_PATH + " " + pin + ' 0 ' + value + ' ' + action + ']: OK');
+            if (stdout !== undefined) {
+                logger.info('    stdout: ' + stdout);
+            }
+            if (stderr !== undefined) {
+                logger.info('    stderr: ' + stderr);
+            }
             if (callback !== undefined) {
                 callback();
             }
