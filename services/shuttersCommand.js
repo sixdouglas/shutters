@@ -2,7 +2,6 @@ var winston = require('winston');
 var logger = winston.loggers.get('default');
 var exec = require('child_process').exec;
 var db = require('../db');
-var sleep = require('sleep');
 
 var GPIO_DEFAULT_PATH = '/usr/local/bin/radioEmission';
 var PIN_SEND = "17";
@@ -62,7 +61,6 @@ function closeAll() {
         shuttersList.forEach(function(shutter) {
             closeOne(shutter.remoteControlKey);
             db.shutters.setShutterOpenState(shutter._id, "close");
-            sleep.sleep(30);
         });
     }
 }
@@ -73,7 +71,6 @@ function openAll() {
         shuttersList.forEach(function(shutter) {
             openOne(shutter.remoteControlKey);
             db.shutters.setShutterOpenState(shutter._id, "open");
-            sleep.sleep(30);
         });
     }
 }

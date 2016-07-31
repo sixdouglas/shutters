@@ -33,7 +33,6 @@
     "passport-local": "1.0.0",
     "password-hash": "1.2.2",
     "serve-favicon": "2.3.0",
-    "sleep": "3.0.1",
     "suncalc": "1.7.0",
     "timezoner": "0.1.9",
     "winston": "2.2.0",
