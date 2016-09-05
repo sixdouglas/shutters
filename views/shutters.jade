@@ -1,7 +1,7 @@
 extends ./template/layout
 
 block content
-    +menu("shutters")
+    +menu(contextPath, "shutters")
 
     if (ok)
         if (ok === true && shutter)
@@ -16,4 +16,4 @@ block content
             });
 
     if (shutters)
-        +shuttersList(shutters)
+        +shuttersList(contextPath, shutters)

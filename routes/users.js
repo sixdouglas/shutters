@@ -7,6 +7,8 @@ var i18n = require("i18n");
 var siteTitle = i18n.__("siteTitle");
 var db = require('../db');
 
+var config = require('../config/config');
+
 // ########################################
 // ### Users functions
 // ########################################
@@ -14,7 +16,8 @@ var db = require('../db');
 function renderProfileOk(req, res, user) {
     res.render('profile', {
         user : user,
-        title : siteTitle
+        title : siteTitle,
+        contextPath : config.webApp.rootPath
     });
 }
 
@@ -25,7 +28,8 @@ function renderProfile(req, res) {
 function renderEditUser(req, res, user) {
     res.render('editProfile', {
         user : user,
-        title : siteTitle
+        title : siteTitle,
+        contextPath : config.webApp.rootPath
     });
 }
 

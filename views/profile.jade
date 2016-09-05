@@ -1,7 +1,7 @@
 extends ./template/layout
 
 block content
-    +menu("profile")
+    +menu(contextPath, "profile")
 
     .container
         if sessionFlash && sessionFlash.message
@@ -49,10 +49,10 @@ block content
                             | &nbsp;
                     .row
                         .col-md-12.text-center
-                            a(href="/logout", title="#{__('profile.logout')}", alt="#{__('profile.logout')}") 
+                            a(href="#{contextPath}/logout", title="#{__('profile.logout')}", alt="#{__('profile.logout')}") 
                                 button.btn.btn-default(type="button")
                                     span.glyphicon.glyphicon-off
                             | &nbsp
-                            a(href="/users/#{user._id}/edit", title="#{__('profile.editIt')}", alt="#{__('profile.editIt')}").hidden-xs
+                            a(href="#{contextPath}/users/#{user._id}/edit", title="#{__('profile.editIt')}", alt="#{__('profile.editIt')}").hidden-xs
                                 button.btn.btn-default(type="button")
                                     span.glyphicon.glyphicon-pencil(aria-hidden="true")

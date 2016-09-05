@@ -6,6 +6,8 @@ var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var config = require('./config/config');
+
 // ########################################
 // ### Application Translation ###
 // ########################################
@@ -50,18 +52,16 @@ var Shutter = require("./services/shuttersCommand");
 var rule = new schedule.RecurrenceRule();
 // hour is set to 3:30 to avoid problems with day saving light changes
 // (remain in the same day and no minute overlaps)
-rule.hour = 3;
-rule.minute = 30;
+rule.hour = config.daySetupScheduler.hour;
+rule.minute = config.daySetupScheduler.minute;
 
 logger.info("Everyday scheduler rule: ", rule);
 
-schedule.scheduleJob(rule, function() {
+var daySetupScheduler = function() {
     var solarTime = new SolarTime([]);
-    var upTime = solarTime.getUpTime(new Date(), 50.6917, 2.8842);
-    var downTime = solarTime.getDownTime(new Date(), 50.6917, 2.8842);
 
-    logger.info("  - Today upTime  : " + upTime);
-    logger.info("    Today downTime: " + downTime);
+    var upTime = solarTime.getUpTime(new Date(), config.latitude, config.longitude);
+    logger.info("    Today shutters upTime  : " + upTime);
 
     schedule.scheduleJob(upTime, function() {
         // Send the Shutters Up signal
@@ -69,12 +69,20 @@ schedule.scheduleJob(rule, function() {
         shutterCmd.openAll();
     });
 
+    var downTime = solarTime.getDownTime(new Date(), config.latitude, config.longitude);
+    logger.info("    Today shutters downTime: " + downTime);
+
     schedule.scheduleJob(downTime, function() {
         // Send the Shutters Down signal
         var shutterCmd = new Shutter();
         shutterCmd.closeAll();
     });
-});
+};
+
+schedule.scheduleJob(rule, daySetupScheduler);
+
+// Call the function for the first to set things up.
+daySetupScheduler();
 
 // ########################################
 // ### Request logging ###
@@ -147,6 +155,7 @@ passport.deserializeUser(function(id, cb) {
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var shutters = require('./routes/shutters');
+var monitoring = require('./routes/monitoring');
 
 var app = express();
 
@@ -193,6 +202,7 @@ app.use(passport.session());
 app.use('/', routes);
 app.use('/users', users);
 app.use('/shutters', shutters);
+app.use('/monitoring', monitoring);
 app.use(express.static('public'));
 
 // catch 404 and forward to error handler

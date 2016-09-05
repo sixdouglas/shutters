@@ -15,7 +15,7 @@
 		"profile": "Profile",
 		"gpio": "GPIO",
 		"logout": "Logout",
-		"status": "menu.status"
+		"monitoring": "Monitoring"
 	},
 	"profile": {
 		"userProfile": "Profile",

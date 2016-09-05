@@ -14,7 +14,8 @@
         "shutters": "Volets",
         "profile": "Profile",
         "gpio": "GPIO",
-        "logout": "Déconnecter"
+        "logout": "Déconnecter",
+        "monitoring": "Monitoring"
     },
     "profile": {
         "userProfile": "Profile",

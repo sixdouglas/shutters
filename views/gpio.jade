@@ -1,7 +1,7 @@
 extends ./template/layout
 
 block content
-    +menu("GPIO")
+    +menu(contextPath, "GPIO")
 
     .container
         .row
@@ -257,17 +257,17 @@ block content
                             span #{__('gpio.snifferLink')}
                 div.tab-content
                     div.tab-pane.active(role="tabpanel", id="emissionCodeJava", aria-labelledby="emission-java-tab")
-                        iframe.sourceCode(src="Pi4jEmission.html")
+                        iframe.sourceCode(src="#{contextPath}/Pi4jEmission.html")
                     div.tab-pane(role="tabpanel", id="receptionCodeJava", aria-labelledby="reception-java-tab")
-                        iframe.sourceCode(src="Pi4jReception.html")
+                        iframe.sourceCode(src="#{contextPath}/Pi4jReception.html")
                     div.tab-pane(role="tabpanel", id="snifferCodeJava", aria-labelledby="sniffer-java-tab")
-                        iframe.sourceCode(src="Pi4jTraceReception.html")
+                        iframe.sourceCode(src="#{contextPath}/Pi4jTraceReception.html")
                     div.tab-pane(role="tabpanel", id="emissionCode", aria-labelledby="emission-tab")
-                        iframe.sourceCode(src="radioEmission.html")
+                        iframe.sourceCode(src="#{contextPath}/radioEmission.html")
                     div.tab-pane(role="tabpanel", id="receptionCode", aria-labelledby="reception-tab")
-                        iframe.sourceCode(src="radioReception.html")
+                        iframe.sourceCode(src="#{contextPath}/radioReception.html")
                     div.tab-pane(role="tabpanel", id="snifferCode", aria-labelledby="sniffer-tab")
-                        iframe.sourceCode(src="radioSniffer.html")
+                        iframe.sourceCode(src="#{contextPath}/radioSniffer.html")
 
     script(type='text/javascript').
         $('#codeTabs a').click(function (e) {

@@ -8,6 +8,8 @@ var monitoringService = require("../services/monitoring");
 var i18n = require("i18n");
 var siteTitle = i18n.__("siteTitle");
 
+var config = require('../config/config');
+
 function Monitoring() {
 }
 
@@ -20,7 +22,8 @@ function renderCpu(req, res) {
     var cpuReturn = monitoringService.cpu();
     res.render('monitoring', {
         cpu : cpuReturn,
-        title : siteTitle
+        title : siteTitle,
+        contextPath : config.webApp.rootPath
     });
 }
 
@@ -28,8 +31,9 @@ function renderHeat(req, res) {
     logger.info("get.renderHeat()");
     var heatReturn = monitoringService.heat();
     res.render('monitoring', {
-        heat : heatReturn,
-        title : siteTitle
+        data : heatReturn,
+        title : siteTitle,
+        contextPath : config.webApp.rootPath
     });
 }
 
@@ -37,8 +41,9 @@ function renderDisk(req, res) {
     logger.info("get.renderDisk()");
     var diskReturn = monitoringService.disk();
     res.render('monitoring', {
-        disk : diskReturn,
-        title : siteTitle
+        data : diskReturn,
+        title : siteTitle,
+        contextPath : config.webApp.rootPath
     });
 }
 
@@ -46,8 +51,9 @@ function renderRam(req, res) {
     logger.info("get.renderRam()");
     var ramReturn = monitoringService.ram();
     res.render('monitoring', {
-        ram : ramReturn,
-        title : siteTitle
+        data : ramReturn,
+        title : siteTitle,
+        contextPath : config.webApp.rootPath
     });
 }
 
@@ -55,8 +61,9 @@ function renderEthernet(req, res) {
     logger.info("get.renderEthernet()");
     var ethernetReturn = monitoringService.ethernet();
     res.render('monitoring', {
-        ethernet : ethernetReturn,
-        title : siteTitle
+        data : ethernetReturn,
+        title : siteTitle,
+        contextPath : config.webApp.rootPath
     });
 }
 
@@ -64,8 +71,9 @@ function renderDistribution(req, res) {
     logger.info("get.renderDistribution()");
     var distributionReturn = monitoringService.distribution();
     res.render('monitoring', {
-        distribution : distributionReturn,
-        title : siteTitle
+        data : distributionReturn,
+        title : siteTitle,
+        contextPath : config.webApp.rootPath
     });
 }
 
@@ -73,8 +81,9 @@ function renderKernel(req, res) {
     logger.info("get.renderKernel()");
     var kernelReturn = monitoringService.kernel();
     res.render('monitoring', {
-        kernel : kernelReturn,
-        title : siteTitle
+        data : kernelReturn,
+        title : siteTitle,
+        contextPath : config.webApp.rootPath
     });
 }
 
@@ -82,8 +91,9 @@ function renderFirmware(req, res) {
     logger.info("get.renderFirmware()");
     var firmwareReturn = monitoringService.firmware();
     res.render('monitoring', {
-        firmware : firmwareReturn,
-        title : siteTitle
+        data : firmwareReturn,
+        title : siteTitle,
+        contextPath : config.webApp.rootPath
     });
 }
 
@@ -91,8 +101,9 @@ function renderHostname(req, res) {
     logger.info("get.renderHostname()");
     var hostnameReturn = monitoringService.hostname();
     res.render('monitoring', {
-        hostname : hostnameReturn,
-        title : siteTitle
+        data : hostnameReturn,
+        title : siteTitle,
+        contextPath : config.webApp.rootPath
     });
 }
 
@@ -100,8 +111,9 @@ function renderInternalIp(req, res) {
     logger.info("get.renderInternalIp()");
     var internalIpReturn = monitoringService.internalIp();
     res.render('monitoring', {
-        internalIp : internalIpReturn,
-        title : siteTitle
+        data : internalIpReturn,
+        title : siteTitle,
+        contextPath : config.webApp.rootPath
     });
 }
 
@@ -109,8 +121,9 @@ function renderExternalIp(req, res) {
     logger.info("get.renderExternalIp()");
     var externalIpReturn = monitoringService.externalIp();
     res.render('monitoring', {
-        externalIp : externalIpReturn,
-        title : siteTitle
+        data : externalIpReturn,
+        title : siteTitle,
+        contextPath : config.webApp.rootPath
     });
 }
 
@@ -118,8 +131,9 @@ function renderUptime(req, res) {
     logger.info("get.renderUptime()");
     var uptimeReturn = monitoringService.uptime();
     res.render('monitoring', {
-        uptime : uptimeReturn,
-        title : siteTitle
+        data : uptimeReturn,
+        title : siteTitle,
+        contextPath : config.webApp.rootPath
     });
 }
 
