@@ -1,20 +1,22 @@
-mixin menu(item)
-    +nav(title, "dropdown_menu")
+mixin menu(contextPath, item)
+    +nav(contextPath, title, "dropdown_menu")
         if (user)
-            +nav_item( "/shutters/list", item === "shutters" ) #{__("menu.shutters")}
-            +nav_item( "/users/profile", item === "profile" ) #{__("menu.profile")}
-            +nav_item( "/gpio", item === "gpio" ) #{__("menu.gpio")}
-            +nav_item( "/logout" ) #{__("menu.logout")}
+            +nav_item( contextPath + "/shutters/list", item === "shutters" )   #{__("menu.shutters")}
+            +nav_item( contextPath + "/users/profile", item === "profile" )    #{__("menu.profile")}
+            +nav_item( contextPath + "/gpio",          item === "gpio" )       #{__("menu.gpio")}
+            +nav_item( contextPath + "/monitoring",    item === "monitoring" ) #{__("menu.monitoring")}
+            +nav_item( contextPath + "/logout" ) #{__("menu.logout")}
 
-mixin shuttersList(shutters)
+mixin shuttersList(contextPath, shutters)
     .list-group
         .row.text-center.hidden-xs
             .col-md-3.col-md-offset-9.add-group-item
-                a(href="/shutters/add", title='#{__("shutter.addIt")}', alt='#{__("shutter.addIt")}')
-                    span.glyphicon.glyphicon-plus(aria-hidden="true")
+                a(href=contextPath + "/shutters/add", title='#{__("shutter.addIt")}', alt='#{__("shutter.addIt")}')
+                    button.btn.btn-default
+                        span.glyphicon.glyphicon-plus(aria-hidden="true")
     
         each shutter, index in shutters
-            .row.list-group-item.text-center.vertical-center
+            .list-group-item.text-center.vertical-center
                 .col-md-9
                     .h4.text-left.list-group-item-heading #{shutter.name}
                     if (shutter.open === true)
@@ -23,19 +25,23 @@ mixin shuttersList(shutters)
                         p.text-left.list-group-item-text.text-upper.text-bold.text-red #{__("shutter.closeState")}
                 .col-md-3
                     if (shutter.open === true)
-                        a(href="/shutters/#{shutter._id}/#{shutter.remoteControlKey}/close", title='#{__("shutter.closeIt")}', alt='#{__("shutter.closeIt")}')
-                            span.glyphicon.glyphicon-menu-down(aria-hidden="true")
+                        a(href=contextPath + "/shutters/#{shutter._id}/#{shutter.remoteControlKey}/close", title='#{__("shutter.closeIt")}', alt='#{__("shutter.closeIt")}')
+                            button.btn.btn-success.btn-sm
+                                span.small.glyphicon.glyphicon-menu-down(aria-hidden="true")
                     if (shutter.open !== true)
-                        a(href="/shutters/#{shutter._id}/#{shutter.remoteControlKey}/open", title="#{__('shutter.openIt')}", alt="#{__('shutter.openIt')}")
-                            span.glyphicon.glyphicon-menu-up(aria-hidden="true")
+                        a(href=contextPath + "/shutters/#{shutter._id}/#{shutter.remoteControlKey}/open", title="#{__('shutter.openIt')}", alt="#{__('shutter.openIt')}")
+                            button.btn.btn-warning.btn-sm
+                                span.small.glyphicon.glyphicon-menu-up(aria-hidden="true")
                     | &nbsp
-                    a(href="/shutters/#{shutter._id}/edit", title="#{__('shutter.editIt')}", alt="#{__('shutter.editIt')}").hidden-xs
-                        span.glyphicon.glyphicon-pencil(aria-hidden="true")
+                    a(href=contextPath + "/shutters/#{shutter._id}/edit", title="#{__('shutter.editIt')}", alt="#{__('shutter.editIt')}").hidden-xs
+                        button.btn.btn-default.btn-sm
+                            span.small.glyphicon.glyphicon-pencil(aria-hidden="true")
                     | &nbsp
-                    a(href="/shutters/#{shutter._id}/remove", title="#{__('shutter.removeIt')}", alt="#{__('shutter.removeIt')}").hidden-xs
-                        span.glyphicon.glyphicon-remove(aria-hidden="true")
+                    a(href=contextPath + "/shutters/#{shutter._id}/remove", title="#{__('shutter.removeIt')}", alt="#{__('shutter.removeIt')}").hidden-xs
+                        button.btn.btn-default.btn-sm
+                            span.small.glyphicon.glyphicon-remove(aria-hidden="true")
 
-mixin shuttersGrid(shutters)
+mixin shuttersGrid(contextPath, shutters)
     .row
         .col-xs-8.col-md-4 #{__("shutters.name")}
         .hidden-xs.col-md-4 #{__("shutters.state")}
@@ -43,40 +49,40 @@ mixin shuttersGrid(shutters)
     each shutter, index in shutters
         +shutterLine(index, shutter)
 
-mixin shutterLine(index, shutter)
+mixin shutterLine(contextPath, index, shutter)
     .row
         .col-xs-8.col-md-4 #{shutter.displayName}
         .hidden-xs.col-md-4 #{(shutter.open === true ? __("shutter.openState") : __("shutter.closeState"))}
         .col-xs-4.col-md-4
             if (shutter.open === true)
-                a(href="/shutters/#{shutter._id}/#{shutter.remoteControlKey}/close")
+                a(href=contextPath + "/shutters/#{shutter._id}/#{shutter.remoteControlKey}/close")
                     span.glyphicon.glyphicon-menu-down(aria-hidden="true")
 
             if (shutter.open !== true)
-                a(href="/shutters/#{shutter._id}/#{shutter.remoteControlKey}/open")
+                a(href=contextPath + "/shutters/#{shutter._id}/#{shutter.remoteControlKey}/open")
                     span.glyphicon.glyphicon-menu-up(aria-hidden="true")
             | &nbsp
-            a(href="/shutters/#{shutter._id}/edit").hidden-xs
+            a(href=contextPath + "/shutters/#{shutter._id}/edit").hidden-xs
                 span.glyphicon.glyphicon-pencil(aria-hidden="true")
             | &nbsp
-            a(href="/shutters/#{shutter._id}/remove").hidden-xs
+            a(href=contextPath + "/shutters/#{shutter._id}/remove").hidden-xs
                 span.glyphicon.glyphicon-remove(aria-hidden="true")
         
-mixin shuttersTable(shutters)
+mixin shuttersTable(contextPath, shutters)
       table.table.table-bordered.table-striped.table-condensed.table-hover.table-slim.text-center
          thead
                 tr
                     th.text-center #{__("shutters.name")}
                     th.text-center #{__("shutters.state")}
                     th.text-center 
-                        a(href="/shutters/add")
+                        a(href=contextPath + "/shutters/add")
                             span.glyphicon.glyphicon-plus(aria-hidden="true")
           tbody
                 each shutter, index in shutters
                     +shutterRow(index, shutter)
 
 
-mixin shutterRow(index, shutter)
+mixin shutterRow(contextPath, index, shutter)
     tr
         td
             = shutter.displayName
@@ -84,15 +90,15 @@ mixin shutterRow(index, shutter)
             = (shutter.open === true ? __("shutter.openState") : __("shutter.closeState"))
         td
             if (shutter.open === true)
-                a(href="/shutters/#{shutter._id}/#{shutter.remoteControlKey}/close")
+                a(href=contextPath + "/shutters/#{shutter._id}/#{shutter.remoteControlKey}/close")
                     span.glyphicon.glyphicon-menu-down(aria-hidden="true")
 
             if (shutter.open !== true)
-                a(href="/shutters/#{shutter._id}/#{shutter.remoteControlKey}/open")
+                a(href=contextPath + "/shutters/#{shutter._id}/#{shutter.remoteControlKey}/open")
                     span.glyphicon.glyphicon-menu-up(aria-hidden="true")
             | &nbsp
-            a(href="/shutters/#{shutter._id}/edit")
+            a(href=contextPath + "/shutters/#{shutter._id}/edit")
                 span.glyphicon.glyphicon-pencil(aria-hidden="true")
             | &nbsp
-            a(href="/shutters/#{shutter._id}/remove")
+            a(href=contextPath + "/shutters/#{shutter._id}/remove")
                 span.glyphicon.glyphicon-remove(aria-hidden="true")

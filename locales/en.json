@@ -1,27 +1,64 @@
 {
 	"siteTitle": "Home Tech",
-    "index": {
-        "enterLogin": "Enter your login and password",
-        "loggedAs": "You are connected as",
-        "username": "Username",
-        "password": "Password",
-        "submit": "Submit",
-        "cancel": "Cancel",
-        "logout": "Logout"
-    },
-    "menu": {
-        "index": "Index",
-        "shutters": "Shutters",
-        "profile": "Profile",
-        "gpio": "GPIO",
-        "logout": "Logout"
-    },
-    "profile": {
-        "userProfile": "Profile",
-        "id": "Id",
-        "username": "Username",
-        "name": "Name",
-        "email": "Email",
-        "logout": "Logout"
-    }
+	"index": {
+		"enterLogin": "Sign in",
+		"loggedAs": "You are connected as",
+		"username": "Username",
+		"password": "Password",
+		"submit": "Submit",
+		"cancel": "Cancel",
+		"logout": "Logout"
+	},
+	"menu": {
+		"index": "Index",
+		"shutters": "Shutters",
+		"profile": "Profile",
+		"gpio": "GPIO",
+		"logout": "Logout",
+		"monitoring": "Monitoring"
+	},
+	"profile": {
+		"userProfile": "Profile",
+		"id": "Id",
+		"username": "Username",
+		"name": "Name",
+		"email": "Email",
+		"logout": "Logout",
+		"editIt": "Edit profile",
+		"password": "Password",
+		"repassword": "Password again",
+		"submit": "Submit",
+		"success": "Success",
+		"problem": "Problem"
+	},
+	"shutter": {
+		"addIt": "Add shutter",
+		"closeState": "Closed",
+		"openIt": "Open",
+		"editIt": "Edit Shutter",
+		"removeIt": "remove Shutter",
+		"id": "ID",
+		"name": "Name",
+		"displayName": "Friendly Name",
+		"key": "Key",
+		"state": "State",
+		"openState": "Opened",
+		"submit": "Submit",
+		"cancel": "Cancel",
+		"closeIt": "Close It"
+	},
+	"gpio": {
+		"wiringpiSudo": "Using WiringPi without being root or doing a sudo.",
+		"emissionLinkJava": "Emission Java",
+		"receptionLinkJava": "Reception Java",
+		"snifferLinkJava": "Sniffer Java",
+		"emissionLink": "Emission C++",
+		"receptionLink": "Reception C++",
+		"snifferLink": "Sniffer C++"
+	},
+	"shutters": {
+		"closeRequest": "Close Request",
+		"updateOk": "Update Ok",
+		"openRequest": "Open Request"
+	}
 }

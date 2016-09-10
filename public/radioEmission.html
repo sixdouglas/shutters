@@ -5,420 +5,237 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Baking Bootstrap Snippets with Jade">
         <title>Home Tech</title>
+        <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
         <link rel="stylesheet" href="/stylesheets/style.css">
     </head>
-    <body class="nopadding">
-    <!-- HTML generated using hilite.me -->
+    <body class="nopadding" bgcolor="white">
         <div>
-            <table>
-                <tr>
-                    <td class="lineNumbering">
-                        <pre style="margin: 0; line-height: 125%">  1
-  2
-  3
-  4
-  5
-  6
-  7
-  8
-  9
- 10
- 11
- 12
- 13
- 14
- 15
- 16
- 17
- 18
- 19
- 20
- 21
- 22
- 23
- 24
- 25
- 26
- 27
- 28
- 29
- 30
- 31
- 32
- 33
- 34
- 35
- 36
- 37
- 38
- 39
- 40
- 41
- 42
- 43
- 44
- 45
- 46
- 47
- 48
- 49
- 50
- 51
- 52
- 53
- 54
- 55
- 56
- 57
- 58
- 59
- 60
- 61
- 62
- 63
- 64
- 65
- 66
- 67
- 68
- 69
- 70
- 71
- 72
- 73
- 74
- 75
- 76
- 77
- 78
- 79
- 80
- 81
- 82
- 83
- 84
- 85
- 86
- 87
- 88
- 89
- 90
- 91
- 92
- 93
- 94
- 95
- 96
- 97
- 98
- 99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156
-157
-158
-159
-160
-161
-162
-163
-164
-165
-166
-167
-168
-169
-170
-171
-172
-173
-174
-175
-176
-177
-178
-179
-180
-181
-182
-183
-184
-185
-186
-187
-188
-189
-190</pre>
-                    </td>
-                    <td>
-                        <pre style="margin: 0; line-height: 125%"><span style="color: #557799">#include &lt;wiringPi.h&gt;</span>
-<span style="color: #557799">#include &lt;iostream&gt;</span>
-<span style="color: #557799">#include &lt;stdio.h&gt;</span>
-<span style="color: #557799">#include &lt;sys/time.h&gt;</span>
-<span style="color: #557799">#include &lt;time.h&gt;</span>
-<span style="color: #557799">#include &lt;math.h&gt;</span>
-<span style="color: #557799">#include &lt;stdlib.h&gt;</span>
-<span style="color: #557799">#include &lt;sched.h&gt;</span>
-<span style="color: #557799">#include &lt;sstream&gt;</span>
+            <pre class="prettyprint" id="cpp"><code class="language-cpp">#include <wiringPi.h>
+#include <iostream>
+#include <stdio.h>
+#include <sys/time.h>
+#include <time.h>
+#include <math.h>
+#include <stdlib.h>
+#include <sched.h>
+#include <sstream>
 
-<span style="color: #888888">/*</span>
-<span style="color: #888888">Adapted by Douglas SIX</span>
-<span style="color: #888888">Par Idleman (idleman@idleman.fr - http://blog.idleman.fr)</span>
-<span style="color: #888888">Licence : CC by sa</span>
-<span style="color: #888888">Toutes question sur le blog ou par mail, possibilité de m&#39;envoyer des bières via le blog</span>
-<span style="color: #888888">*/</span>
+/*
+Par Idleman (idleman@idleman.fr - http://blog.idleman.fr)
+Licence : CC by sa
+Toutes question sur le blog ou par mail, possibilité de m'envoyer des bières via le blog
+*/
 
-<span style="color: #008800; font-weight: bold">using</span> <span style="color: #008800; font-weight: bold">namespace</span> std;
+using namespace std;
 
-<span style="color: #333399; font-weight: bold">int</span> pin;
-<span style="color: #333399; font-weight: bold">bool</span> bit2[<span style="color: #0000DD; font-weight: bold">26</span>]<span style="color: #333333">=</span>{};              <span style="color: #888888">// 26 bit Identifiant emetteur</span>
-<span style="color: #333399; font-weight: bold">bool</span> bit2Interruptor[<span style="color: #0000DD; font-weight: bold">4</span>]<span style="color: #333333">=</span>{}; 
-<span style="color: #333399; font-weight: bold">int</span> interruptor;
-<span style="color: #333399; font-weight: bold">int</span> sender;
+int pin;
+bool bit2[26]={};              // 26 bit Identifiant emetteur
+bool bit2Interruptor[4]={};
+int interruptor;
+int sender;
 string onoff;
 
-<span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">log</span>(string a){
-    <span style="color: #888888">//char buffer[26];</span>
-    <span style="color: #888888">//int millisec;</span>
-    <span style="color: #888888">//struct tm* tm_info;</span>
-    <span style="color: #888888">//struct timeval tv;</span>
+void log(string a){
+    char buffer[26];
+    int millisec;
+    struct tm* tm_info;
+    struct timeval tv;
 
-    <span style="color: #888888">//gettimeofday(&tv, NULL);</span>
+    gettimeofday(&tv, NULL);
 
-    <span style="color: #888888">//millisec = lrint(tv.tv_usec/1000.0); // Round to nearest millisec</span>
-    <span style="color: #888888">//if (millisec>=1000) { // Allow for rounding up to nearest second</span>
-    <span style="color: #888888">//    millisec -=1000;</span>
-    <span style="color: #888888">//    tv.tv_sec++;</span>
-    <span style="color: #888888">//}</span>
+    millisec = lrint(tv.tv_usec/1000.0); // Round to nearest millisec
+    if (millisec>=1000) { // Allow for rounding up to nearest second
+        millisec -=1000;
+        tv.tv_sec++;
+    }
 
-    <span style="color: #888888">//tm_info = localtime(&tv.tv_sec);</span>
+    tm_info = localtime(&tv.tv_sec);
 
-    <span style="color: #888888">//strftime(buffer, 26, "%F %X", tm_info);</span>
-    <span style="color: #888888">//printf("%s.%03d ", buffer, millisec);</span>
+    strftime(buffer, 26, "%F %X", tm_info);
+    printf("%s.%03d ", buffer, millisec);
 
-    <span style="color: #888888">//Décommenter pour avoir les logs</span>
-    <span style="color: #888888">//cout &lt;&lt; a &lt;&lt; endl;</span>
+    // Décommenter pour avoir les logs
+    cout << a << endl;
 }
 
-<span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">scheduler_realtime</span>() {
-    <span style="color: #008800; font-weight: bold">struct</span> sched_param p;
-    p.__sched_priority <span style="color: #333333">=</span> sched_get_priority_max(SCHED_RR);
-    <span style="color: #008800; font-weight: bold">if</span>( sched_setscheduler( <span style="color: #0000DD; font-weight: bold">0</span>, SCHED_RR, <span style="color: #333333">&amp;</span>p ) <span style="color: #333333">==</span> <span style="color: #333333">-</span><span style="color: #0000DD; font-weight: bold">1</span> ) {
-        perror(<span style="background-color: #fff0f0">&quot;Failed to switch to realtime scheduler.&quot;</span>);
+void scheduler_realtime() {
+    struct sched_param p;
+    p.__sched_priority = sched_get_priority_max(SCHED_RR);
+    if( sched_setscheduler( 0, SCHED_RR, &p) == -1) {
+        perror("Failed to switch to realtime scheduler.");
     }
 }
 
-<span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">scheduler_standard</span>() {
-    <span style="color: #008800; font-weight: bold">struct</span> sched_param p;
-    p.__sched_priority <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>;
-    <span style="color: #008800; font-weight: bold">if</span>( sched_setscheduler( <span style="color: #0000DD; font-weight: bold">0</span>, SCHED_OTHER, <span style="color: #333333">&amp;</span>p ) <span style="color: #333333">==</span> <span style="color: #333333">-</span><span style="color: #0000DD; font-weight: bold">1</span> ) {
-        perror(<span style="background-color: #fff0f0">&quot;Failed to switch to normal scheduler.&quot;</span>);
+void scheduler_standard() {
+    struct sched_param p;
+    p.__sched_priority = 0;
+    if( sched_setscheduler( 0, SCHED_OTHER, &p) == -1) {
+        perror("Failed to switch to normal scheduler.");
     }
 }
 
-<span style="color: #888888">//Envois d&#39;une pulsation (passage de l&#39;etat haut a l&#39;etat bas)</span>
-<span style="color: #888888">//1 = 310µs haut puis 1340µs bas</span>
-<span style="color: #888888">//0 = 310µs haut puis 310µs bas</span>
-<span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">sendBit</span>(<span style="color: #333399; font-weight: bold">bool</span> b) {
-    <span style="color: #008800; font-weight: bold">if</span> (b) {
+// Envoi d'une pulsation (passage de l'etat haut a l'etat bas)
+// 1 = 310µs haut puis 1340µs bas
+// 0 = 310µs haut puis 310µs bas
+void sendBit(bool b) {
+    if (b) {
         digitalWrite(pin, HIGH);
-        delayMicroseconds(<span style="color: #0000DD; font-weight: bold">250</span>);   <span style="color: #888888">//275 orinally, but tweaked 310.</span>
+        delayMicroseconds(250);   //  275 orinally, but 310  tweaked.
         digitalWrite(pin, LOW);
-        delayMicroseconds(<span style="color: #0000DD; font-weight: bold">1314</span>);  <span style="color: #888888">//1225 orinally, but tweaked 1314.</span>
-    } <span style="color: #008800; font-weight: bold">else</span> {
+        delayMicroseconds(1314);  // 1225 orinally, but 1340 tweaked.
+    } else {
         digitalWrite(pin, HIGH);
-        delayMicroseconds(<span style="color: #0000DD; font-weight: bold">250</span>);   <span style="color: #888888">//275 orinally, but tweaked 310.</span>
+        delayMicroseconds(250);   //  275 orinally, but 310  tweaked.
         digitalWrite(pin, LOW);
-        delayMicroseconds(<span style="color: #0000DD; font-weight: bold">250</span>);   <span style="color: #888888">//275 orinally, but tweaked 310.</span>
+        delayMicroseconds(250);   //  275 orinally, but 310  tweaked.
     }
 }
 
-<span style="color: #888888">//Calcul le nombre 2^chiffre indiqué, fonction utilisé par itob pour la conversion decimal/binaire</span>
-<span style="color: #333399; font-weight: bold">unsigned</span> <span style="color: #333399; font-weight: bold">long</span> <span style="color: #0066BB; font-weight: bold">power2</span>(<span style="color: #333399; font-weight: bold">int</span> power){
-    <span style="color: #333399; font-weight: bold">unsigned</span> <span style="color: #333399; font-weight: bold">long</span> integer<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">1</span>;
-    <span style="color: #008800; font-weight: bold">for</span> (<span style="color: #333399; font-weight: bold">int</span> i<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">0</span>; i<span style="color: #333333">&lt;</span>power; i<span style="color: #333333">++</span>){
-        integer<span style="color: #333333">*=</span><span style="color: #0000DD; font-weight: bold">2</span>;
+// Calcul le nombre 2^chiffre indiqué, fonction utilisé par itob pour la conversion decimal/binaire
+unsigned long power2(int power){
+    unsigned long integer = 1;
+    for (int i = 0; i < power; i++){
+        integer *= 2;
     }
-    <span style="color: #008800; font-weight: bold">return</span> integer;
-} 
+    return integer;
+}
 
-<span style="color: #888888">//Convertis un nombre en binaire, nécessite le nombre, et le nombre de bits souhaité en sortie (ici 26)</span>
-<span style="color: #888888">// Stocke le résultat dans le tableau global &quot;bit2&quot;</span>
-<span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">itob</span>(<span style="color: #333399; font-weight: bold">unsigned</span> <span style="color: #333399; font-weight: bold">long</span> integer, <span style="color: #333399; font-weight: bold">int</span> length){
-    <span style="color: #008800; font-weight: bold">for</span> (<span style="color: #333399; font-weight: bold">int</span> i<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">0</span>; i<span style="color: #333333">&lt;</span>length; i<span style="color: #333333">++</span>){
-        <span style="color: #008800; font-weight: bold">if</span> ((integer <span style="color: #333333">/</span> power2(length<span style="color: #333333">-</span><span style="color: #0000DD; font-weight: bold">1</span><span style="color: #333333">-</span>i))<span style="color: #333333">==</span><span style="color: #0000DD; font-weight: bold">1</span>){
-            integer<span style="color: #333333">-=</span>power2(length<span style="color: #333333">-</span><span style="color: #0000DD; font-weight: bold">1</span><span style="color: #333333">-</span>i);
-            bit2[i]<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">1</span>;
-        } <span style="color: #008800; font-weight: bold">else</span> {
-            bit2[i]<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">0</span>;
+// Convertit un nombre en binaire, nécessite le nombre, et le nombre de bits souhaité en sortie (ici 26)
+// Stock le résultat dans le tableau global "bit2"
+void itob(unsigned long integer, int length){
+    for (int i = 0; i < length; i++){
+        if ((integer / power2(length - 1 - i)) == 1){
+            integer -= power2(length - 1 - i);
+            bit2[i] = 1;
+        } else {
+            bit2[i] = 0;
         }
     }
 }
 
-<span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">itobInterruptor</span>(<span style="color: #333399; font-weight: bold">unsigned</span> <span style="color: #333399; font-weight: bold">long</span> integer, <span style="color: #333399; font-weight: bold">int</span> length){
-    <span style="color: #008800; font-weight: bold">for</span> (<span style="color: #333399; font-weight: bold">int</span> i<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">0</span>; i<span style="color: #333333">&lt;</span>length; i<span style="color: #333333">++</span>){
-        <span style="color: #008800; font-weight: bold">if</span> ((integer <span style="color: #333333">/</span> power2(length<span style="color: #333333">-</span><span style="color: #0000DD; font-weight: bold">1</span><span style="color: #333333">-</span>i))<span style="color: #333333">==</span><span style="color: #0000DD; font-weight: bold">1</span>){
-            integer<span style="color: #333333">-=</span>power2(length<span style="color: #333333">-</span><span style="color: #0000DD; font-weight: bold">1</span><span style="color: #333333">-</span>i);
-            bit2Interruptor[i]<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">1</span>;
-        } <span style="color: #008800; font-weight: bold">else</span> {
-            bit2Interruptor[i]<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">0</span>;
+void itobInterruptor(unsigned long integer, int length){
+    for (int i = 0; i < length; i++){
+        if ((integer / power2(length - 1 - i)) == 1){
+            integer -= power2(length - 1 - i);
+            bit2Interruptor[i] = 1;
+        } else {
+            bit2Interruptor[i] = 0;
         }
     }
 }
 
-<span style="color: #888888">//Envoie d&#39;une paire de pulsation radio qui definissent 1 bit réel : 0 =01 et 1 =10</span>
-<span style="color: #888888">//c&#39;est le codage de manchester qui necessite ce petit bouzin, ceci permet entre autres de dissocier les données des parasites</span>
-<span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">sendPair</span>(<span style="color: #333399; font-weight: bold">bool</span> b) {
-    <span style="color: #008800; font-weight: bold">if</span>(b) {
-        sendBit(<span style="color: #007020">true</span>);
-        sendBit(<span style="color: #007020">false</span>);
-    } <span style="color: #008800; font-weight: bold">else</span> {
-        sendBit(<span style="color: #007020">false</span>);
-        sendBit(<span style="color: #007020">true</span>);
+// Envoi d'une paire de pulsation radio qui definissent 1 bit réel : 0 =01 et 1 =10
+// c'est le codage de manchester qui necessite ce petit bouzin, ceci permet entre autres de dissocier les données des parasites
+void sendPair(bool b) {
+    if(b) {
+        sendBit(true);
+        sendBit(false);
+    } else {
+        sendBit(false);
+        sendBit(true);
     }
 }
 
-<span style="color: #888888">//Fonction d&#39;envois du signal</span>
-<span style="color: #888888">//recoit en parametre un booleen définissant l&#39;arret ou la marche du matos (true = on, false = off)</span>
-<span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">transmit</span>(<span style="color: #333399; font-weight: bold">int</span> blnOn){
-    <span style="color: #333399; font-weight: bold">int</span> i;
+// Fonction d'envoi du signal
+// recoit en parametre un booleen définissant l'arret ou la marche du matos (true = on, false = off)
+void transmit(int blnOn){
+    int i;
 
-    <span style="color: #888888">// Sequence de verrou anoncant le départ du signal au recepeteur</span>
+    // Sequence de verrou anoncant le départ du signal au recepeteur
     digitalWrite(pin, HIGH);
-    delayMicroseconds(<span style="color: #0000DD; font-weight: bold">275</span>);    <span style="color: #888888">// un bit de bruit avant de commencer pour remettre les delais du recepteur a 0</span>
+    delayMicroseconds(275);   // un bit de bruit avant de commencer pour remettre les delais du recepteur a 0
     digitalWrite(pin, LOW);
-    delayMicroseconds(<span style="color: #0000DD; font-weight: bold">10560</span>);  <span style="color: #888888">// premier verrou de 9900µs</span>
-    digitalWrite(pin, HIGH);   <span style="color: #888888">// high again</span>
-    delayMicroseconds(<span style="color: #0000DD; font-weight: bold">275</span>);    <span style="color: #888888">// attente de 275µs entre les deux verrous</span>
-    digitalWrite(pin, LOW);    <span style="color: #888888">// second verrou de 2675µs</span>
-    delayMicroseconds(<span style="color: #0000DD; font-weight: bold">2730</span>);
-    digitalWrite(pin, HIGH);   <span style="color: #888888">// On reviens en état haut pour bien couper les verrous des données</span>
+    delayMicroseconds(10560); // premier verrou de 9900µs
+    digitalWrite(pin, HIGH);  // high again
+    delayMicroseconds(275);   // attente de 275µs entre les deux verrous
+    digitalWrite(pin, LOW);   // second verrou de 2675µs
+    delayMicroseconds(2730);
+    digitalWrite(pin, HIGH);  // On reviens en état haut pour bien couper les verrous des données
 
-    <span style="color: #888888">// Envoie du code emetteur (272946 = 1000010101000110010  en binaire)</span>
-    <span style="color: #008800; font-weight: bold">for</span>(i<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">0</span>; i<span style="color: #333333">&lt;</span><span style="color: #0000DD; font-weight: bold">26</span>;i<span style="color: #333333">++</span>) {
+    // Envoi du code emetteur (272946 = 1000010101000110010  en binaire)
+    for(i = 0; i < 26; i++) {
         sendPair(bit2[i]);
     }
 
-    <span style="color: #888888">// Envoie du bit définissant si c&#39;est une commande de groupe ou non (26em bit)</span>
-    sendPair(<span style="color: #007020">false</span>);
+    // Envoi du bit définissant si c'est une commande de groupe ou non (26em bit)
+    sendPair(false);
 
-    <span style="color: #888888">// Envoie du bit définissant si c&#39;est allumé ou eteint 27em bit)</span>
+    // Envoi du bit définissant si c'est allumé ou eteint 27em bit)
     sendPair(blnOn);
 
-    <span style="color: #888888">// Envoie des 4 derniers bits, qui représentent le code interrupteur, ici 0 (encode sur 4 bit donc 0000)</span>
-    <span style="color: #888888">// nb: sur  les télécommandes officielle chacon, les interrupteurs sont logiquement nommés de 0 à x</span>
-    <span style="color: #888888">// interrupteur 1 = 0 (donc 0000) , interrupteur 2 = 1 (1000) , interrupteur 3 = 2 (0100) etc...</span>
-    <span style="color: #008800; font-weight: bold">for</span>(i<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">0</span>; i<span style="color: #333333">&lt;</span><span style="color: #0000DD; font-weight: bold">4</span>;i<span style="color: #333333">++</span>) {
-        <span style="color: #008800; font-weight: bold">if</span>(bit2Interruptor[i]<span style="color: #333333">==</span><span style="color: #0000DD; font-weight: bold">0</span>){
-            sendPair(<span style="color: #007020">false</span>);
-        }<span style="color: #008800; font-weight: bold">else</span>{
-            sendPair(<span style="color: #007020">true</span>);
+    // Envoi des 4 derniers bits, qui représentent le code interrupteur, ici 0 (encode sur 4 bit donc 0000)
+    // nb: sur  les télécommandes officielle chacon, les interrupteurs sont logiquement nommés de 0 à x
+    // interrupteur 1 = 0 (donc 0000) , interrupteur 2 = 1 (1000) , interrupteur 3 = 2 (0100) etc...
+    for(i = 0; i < 4; i++) {
+        if(bit2Interruptor[i] == 0){
+            sendPair(false);
+        }else{
+            sendPair(true);
         }
     }
 
-    digitalWrite(pin, HIGH);   <span style="color: #888888">// coupure données, verrou</span>
-    delayMicroseconds(<span style="color: #0000DD; font-weight: bold">275</span>);    <span style="color: #888888">// attendre 275µs</span>
-    digitalWrite(pin, LOW);    <span style="color: #888888">// verrou 2 de 2675µs pour signaler la fermeture du signal</span>
+    digitalWrite(pin, HIGH);   // coupure données, verrou
+    delayMicroseconds(275);    // attendre 275µs
+    digitalWrite(pin, LOW);    // verrou 2 de 2675µs pour signaler la fermeture du signal
 }
 
-<span style="color: #333399; font-weight: bold">int</span> <span style="color: #0066BB; font-weight: bold">main</span> (<span style="color: #333399; font-weight: bold">int</span> argc, <span style="color: #333399; font-weight: bold">char</span><span style="color: #333333">**</span> argv){
+int main (int argc, char** argv){
 
-    <span style="color: #888888">//scheduler_realtime(); // can only be used as root</span>
+    // scheduler_realtime();        // can only be used as root
 
-    log(<span style="background-color: #fff0f0">&quot;Demarrage du programme&quot;</span>);
-    pin <span style="color: #333333">=</span> atoi(argv[<span style="color: #0000DD; font-weight: bold">1</span>]);
-    sender <span style="color: #333333">=</span> atoi(argv[<span style="color: #0000DD; font-weight: bold">2</span>]);
-    interruptor <span style="color: #333333">=</span> atoi(argv[<span style="color: #0000DD; font-weight: bold">3</span>]);
-    onoff <span style="color: #333333">=</span> argv[<span style="color: #0000DD; font-weight: bold">4</span>];
-    <span style="color: #888888">//Si on ne trouve pas la librairie wiringPI, on arrête l&#39;execution</span>
-    <span style="color: #008800; font-weight: bold">if</span>(wiringPiSetupSys() <span style="color: #333333">==</span> <span style="color: #333333">-</span><span style="color: #0000DD; font-weight: bold">1</span>) { <span style="color: #888888">// wiringPiSetup() can only be used as root</span>
-        log(<span style="background-color: #fff0f0">&quot;Librairie Wiring PI introuvable, veuillez lier cette librairie...&quot;</span>);
-        <span style="color: #008800; font-weight: bold">return</span> <span style="color: #333333">-</span><span style="color: #0000DD; font-weight: bold">1</span>;
-    }
-    <span style="color: #888888">//pinMode(pin, OUTPUT); // can only be used as root</span>
-    log(<span style="background-color: #fff0f0">&quot;Pin GPIO configure en sortie&quot;</span>);
+    log("Demarrage du programme");
+    delayMicroseconds(500000);   // attendre 500ms
+    log("Demarrage de l'envoi");
 
-    itob(sender,<span style="color: #0000DD; font-weight: bold">26</span>);            <span style="color: #888888">// convertion du code de l&#39;emetteur (ici 8217034) en code binaire</span>
-    itobInterruptor(interruptor,<span style="color: #0000DD; font-weight: bold">4</span>);
+    pin = atoi(argv[1]);
+    sender = atoi(argv[2]);
+    interruptor = atoi(argv[3]);
+    onoff = argv[4];
 
+    string str = "  pin        :";
+    str.append(argv[1]);
+    log(str);
 
-    <span style="color: #008800; font-weight: bold">if</span>(onoff<span style="color: #333333">==</span><span style="background-color: #fff0f0">&quot;on&quot;</span>){
-        <span style="color: #888888">//system(&quot;/etc/lcd/screen -p \&quot;Radio signal ON...\&quot;&quot;);</span>
-        log(<span style="background-color: #fff0f0">&quot;envois du signal ON&quot;</span>);
-        <span style="color: #008800; font-weight: bold">for</span>(<span style="color: #333399; font-weight: bold">int</span> i<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">0</span>;i<span style="color: #333333">&lt;</span><span style="color: #0000DD; font-weight: bold">5</span>;i<span style="color: #333333">++</span>){
-            transmit(<span style="color: #007020">true</span>);            <span style="color: #888888">// envoyer ON</span>
-            <span style="color: #888888">//delay(10);                 // attendre 10 ms (sinon le socket nous ignore)</span>
-        }
-    }<span style="color: #008800; font-weight: bold">else</span>{
-        <span style="color: #888888">//system(&quot;/etc/lcd/screen -p \&quot;Radio signal OFF...\&quot;&quot;);</span>
-        log(<span style="background-color: #fff0f0">&quot;envois du signal OFF&quot;</span>);
-        <span style="color: #008800; font-weight: bold">for</span>(<span style="color: #333399; font-weight: bold">int</span> i<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">0</span>;i<span style="color: #333333">&lt;</span><span style="color: #0000DD; font-weight: bold">5</span>;i<span style="color: #333333">++</span>){
-            transmit(<span style="color: #007020">false</span>);           <span style="color: #888888">// envoyer OFF</span>
-            <span style="color: #888888">//delay(10);                 // attendre 10 ms (sinon le socket nous ignore)</span>
-        }
+    str = "  sender     :";
+    str.append(argv[2]);
+    log(str);
+
+    str = "  interruptor:";
+    str.append(argv[3]);
+    log(str);
+
+    str = "  on/off     :";
+    str.append(argv[4]);
+    log(str);
+
+    // Si on ne trouve pas la librairie wiringPI, on arrête l'execution
+    if(wiringPiSetupSys() == -1) { // wiringPiSetup()
+        log("Librairie Wiring PI introuvable, veuillez lier cette librairie...");
+        return -1;
     }
 
-    log(<span style="background-color: #fff0f0">&quot;fin du programme&quot;</span>);    <span style="color: #888888">// execution terminée.</span>
-    <span style="color: #888888">//scheduler_standard(); // can only be used as root</span>
-}
-</pre>
-                    </td>
-                </tr>
-            </table>
+    // pinMode(pin, OUTPUT);     // can only be used as root
+
+    itob(sender, 26);            // convertion du code de l'emetteur (ici 8217034) en code binaire
+    itobInterruptor(interruptor, 4);
+
+    if(onoff == "on"){
+        log("envoi du signal ON");
+        for(int i = 0; i < 5; i++){
+            transmit(true);            // envoyer ON
+            // delay(10);              // attendre 10 ms (sinon le socket nous ignore)
+        }
+    }else{
+        log("envoi du signal OFF");
+        for(int i = 0; i < 5; i++){
+            transmit(false);           // envoyer OFF
+            // delay(10);              // attendre 10 ms (sinon le socket nous ignore)
+        }
+    }
+
+    // scheduler_standard();     // can only be used as root
+    log("fin du programme");     // execution terminée.
+}</pre>
         </div>
     </body>
-</html>
+</http>

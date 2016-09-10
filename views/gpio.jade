@@ -1,7 +1,7 @@
 extends ./template/layout
 
 block content
-    +menu("GPIO")
+    +menu(contextPath, "GPIO")
 
     .container
         .row
@@ -238,7 +238,16 @@ block content
             .col-md-12
                 ul.nav.nav-tabs(role="tablist", id="codeTabs")
                     li.active(role="presentation")
-                        a(href="#emissionCode", role="tab", data-toggle="tab", arial-controls="emissionCode", aria-expended="true")
+                        a(href="#emissionCodeJava", role="tab", data-toggle="tab", arial-controls="emissionCodeJava", aria-expended="true")
+                            span #{__('gpio.emissionLinkJava')}
+                    li(role="presentation")
+                        a(href="#receptionCodeJava", role="tab", data-toggle="tab", arial-controls="receptionCodeJava", aria-expended="false")
+                            span #{__('gpio.receptionLinkJava')}
+                    li(role="presentation")
+                        a(href="#snifferCodeJava", role="tab", data-toggle="tab", arial-controls="snifferCodeJava", aria-expended="false")
+                            span #{__('gpio.snifferLinkJava')}
+                    li(role="presentation")
+                        a(href="#emissionCode", role="tab", data-toggle="tab", arial-controls="emissionCode", aria-expended="false")
                             span #{__('gpio.emissionLink')}
                     li(role="presentation")
                         a(href="#receptionCode", role="tab", data-toggle="tab", arial-controls="receptionCode", aria-expended="false")
@@ -247,12 +256,18 @@ block content
                         a(href="#snifferCode", role="tab", data-toggle="tab", arial-controls="snifferCode", aria-expended="false")
                             span #{__('gpio.snifferLink')}
                 div.tab-content
-                    div.tab-pane.active(role="tabpanel", id="emissionCode", aria-labelledby="emission-tab")
-                        iframe.sourceCode(src="radioEmission.html")
+                    div.tab-pane.active(role="tabpanel", id="emissionCodeJava", aria-labelledby="emission-java-tab")
+                        iframe.sourceCode(src="#{contextPath}/Pi4jEmission.html")
+                    div.tab-pane(role="tabpanel", id="receptionCodeJava", aria-labelledby="reception-java-tab")
+                        iframe.sourceCode(src="#{contextPath}/Pi4jReception.html")
+                    div.tab-pane(role="tabpanel", id="snifferCodeJava", aria-labelledby="sniffer-java-tab")
+                        iframe.sourceCode(src="#{contextPath}/Pi4jTraceReception.html")
+                    div.tab-pane(role="tabpanel", id="emissionCode", aria-labelledby="emission-tab")
+                        iframe.sourceCode(src="#{contextPath}/radioEmission.html")
                     div.tab-pane(role="tabpanel", id="receptionCode", aria-labelledby="reception-tab")
-                        iframe.sourceCode(src="radioReception.html")
+                        iframe.sourceCode(src="#{contextPath}/radioReception.html")
                     div.tab-pane(role="tabpanel", id="snifferCode", aria-labelledby="sniffer-tab")
-                        iframe.sourceCode(src="radioSniffer.html")
+                        iframe.sourceCode(src="#{contextPath}/radioSniffer.html")
 
     script(type='text/javascript').
         $('#codeTabs a').click(function (e) {

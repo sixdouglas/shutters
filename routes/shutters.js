@@ -9,6 +9,8 @@ var i18n = require("i18n");
 var siteTitle = i18n.__("siteTitle");
 var db = require('../db');
 
+var config = require('../config/config');
+
 // ########################################
 // ### Shutters functions
 // ########################################
@@ -20,7 +22,8 @@ function renderAll(req, res, ok, shutter) {
         shutters : db.shutters.listAllShutters(),
         shutter : shutter,
         ok : ok,
-        title : siteTitle
+        title : siteTitle,
+        contextPath : config.webApp.rootPath
     });
 }
 
@@ -40,7 +43,8 @@ function renderAdd(req, res) {
     res.render('shutter', {
         user : req.user,
         shutter : shutter,
-        title : siteTitle
+        title : siteTitle,
+        contextPath : config.webApp.rootPath
     });
 }
 
@@ -50,7 +54,8 @@ function renderEdit(req, res) {
         res.render('shutter', {
             user : req.user,
             shutter : shutter,
-            title : siteTitle
+            title : siteTitle,
+            contextPath : config.webApp.rootPath
         });
     });
 }

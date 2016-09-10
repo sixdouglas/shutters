@@ -2,11 +2,11 @@ extends ./template/layout
 
 block content
 
-    +menu("shutters")
+    +menu(contextPath, "shutters")
 
     .panel.panel-default
         .panel-body
-            form.form-horizontal(role='form', action="/shutters/#{shutter._id}/edit", method="post")
+            form.form-horizontal(role='form', action="#{contextPath}/shutters/#{shutter._id}/edit", method="post")
                 .form-group.hidden
                     label.col-sm-2 #{__("shutter.id")}
                     .col-sm-10
@@ -32,5 +32,5 @@ block content
                             +radioLabel("state", "state", "false", !shutter.open, __("shutter.closeState"))
                 button.btn.btn-primary(type='submit') #{__("shutter.submit")}
                 | &nbsp
-                a(href='/shutters/list')
+                a(href='#{contextPath}/shutters/list')
                     button.btn.btn-default(type="button") #{__("shutter.cancel")}

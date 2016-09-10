@@ -8,6 +8,10 @@ var siteTitle = i18n.__("siteTitle");
 var winston = require('winston');
 var logger = winston.loggers.get('default');
 
+var config = require('../config/config');
+
+logger.debug('config.webApp.rootPath : ' + config.webApp.rootPath);
+
 // ########################################
 // ### Main routes functions
 // ########################################
@@ -15,42 +19,48 @@ var logger = winston.loggers.get('default');
 router.get('/', function(req, res, next) {
     res.render('index', {
         user : req.user,
-        title : siteTitle
+        title : siteTitle,
+        contextPath : config.webApp.rootPath
     });
 });
 router.get('/index', function(req, res) {
     res.render('index', {
         user : req.user,
-        title : siteTitle
+        title : siteTitle,
+        contextPath : config.webApp.rootPath
     });
 });
 router.get('/gpio', require('connect-ensure-login').ensureLoggedIn(), function(req, res) {
     res.render('gpio', {
         user : req.user,
-        title : siteTitle
+        title : siteTitle,
+        contextPath : config.webApp.rootPath
     });
 });
 router.get('/login', function(req, res) {
     res.render('index', {
         user : req.user,
-        title : siteTitle
+        title : siteTitle,
+        contextPath : config.webApp.rootPath
     });
 });
 router.get('/error', function(req, res) {
     res.render('error', {
-        title : siteTitle
+        title : siteTitle,
+        contextPath : config.webApp.rootPath
     });
 });
 
 router.post('/login', passport.authenticate('local', {
-    failureRedirect : '/'
+    failureRedirect : config.webApp.rootPath + '/'
 }), function(req, res) {
-    res.redirect('/shutters/list');
+    var localConfig = require('../config/config');
+    res.redirect(localConfig.webApp.rootPath + '/shutters/list');
 });
 
 router.get('/logout', function(req, res) {
     req.logout();
-    res.redirect('/');
+    res.redirect(config.webApp.rootPath + '/');
 });
 
 module.exports = router;

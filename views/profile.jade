@@ -1,7 +1,7 @@
 extends ./template/layout
 
 block content
-    +menu("profile")
+    +menu(contextPath, "profile")
 
     .container
         if sessionFlash && sessionFlash.message
@@ -9,7 +9,24 @@ block content
                 .row
                     .col-md-4.col-md-offset-4.col-sm-6.col-sm-offset-2.col-xs-12.col-xs-offset-0
                         .alert.alert-success.alert-dismissable
-                            p <strong>Success</strong> #{ sessionFlash.message }
+                            p 
+                                strong #{__("profile.success")}
+                                 #{ sessionFlash.message }
+            else
+                .row
+                    .col-md-4.col-md-offset-4.col-sm-6.col-sm-offset-2.col-xs-12.col-xs-offset-0
+                        .alert.alert-danger.alert-dismissable
+                            p 
+                                strong #{__("profile.problem")}
+                                 #{ sessionFlash.message }
+
+        script.
+            $(".alert-success").fadeTo(2000, 500).slideUp(500, function(){
+                $(".alert-success").alert('close');
+            });
+            $(".alert-danger").fadeTo(2000, 500).slideUp(500, function(){
+                $(".alert-danger").alert('close');
+            });
 
         .row
             .col-md-4.col-md-offset-4.col-sm-6.col-sm-offset-2.col-xs-12.col-xs-offset-0
@@ -32,10 +49,10 @@ block content
                             | &nbsp;
                     .row
                         .col-md-12.text-center
-                            a(href="/logout", title="#{__('profile.logout')}", alt="#{__('profile.logout')}") 
+                            a(href="#{contextPath}/logout", title="#{__('profile.logout')}", alt="#{__('profile.logout')}") 
                                 button.btn.btn-default(type="button")
                                     span.glyphicon.glyphicon-off
                             | &nbsp
-                            a(href="/users/#{user._id}/edit", title="#{__('profile.editIt')}", alt="#{__('profile.editIt')}").hidden-xs
+                            a(href="#{contextPath}/users/#{user._id}/edit", title="#{__('profile.editIt')}", alt="#{__('profile.editIt')}").hidden-xs
                                 button.btn.btn-default(type="button")
                                     span.glyphicon.glyphicon-pencil(aria-hidden="true")
