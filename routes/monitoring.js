@@ -141,6 +141,7 @@ function renderUptime(req, res) {
 // ### Monitoring routes
 // ########################################
 
+router.get('/', require('connect-ensure-login').ensureLoggedIn(), renderCpu);
 router.get('/cpu', require('connect-ensure-login').ensureLoggedIn(), renderCpu);
 router.get('/heat', require('connect-ensure-login').ensureLoggedIn(), renderHeat);
 router.get('/disk', require('connect-ensure-login').ensureLoggedIn(), renderDisk);

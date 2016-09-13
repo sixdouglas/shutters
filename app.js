@@ -207,7 +207,7 @@ app.use(express.static('public'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
+    var err = new Error('Not Found [' + req.originalUrl + ']');
     err.status = 404;
     next(err);
 });
@@ -218,10 +218,12 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
+        var localConfig = require('./config/config');
         res.status(err.status || 500);
         res.render('error', {
             message : err.message,
-            error : err
+            error : err,
+            contextPath : config.webApp.rootPath
         });
     });
 }
@@ -229,10 +231,12 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
+    var localConfig = require('./config/config');
     res.status(err.status || 500);
     res.render('error', {
         message : err.message,
-        error : {}
+        error : {},
+        contextPath : config.webApp.rootPath
     });
 });
 

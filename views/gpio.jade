@@ -257,17 +257,17 @@ block content
                             span #{__('gpio.snifferLink')}
                 div.tab-content
                     div.tab-pane.active(role="tabpanel", id="emissionCodeJava", aria-labelledby="emission-java-tab")
-                        iframe.sourceCode(src="#{contextPath}/Pi4jEmission.html")
+                        iframe.sourceCode(src="#{iframeContextPath}/Pi4jEmission.html")
                     div.tab-pane(role="tabpanel", id="receptionCodeJava", aria-labelledby="reception-java-tab")
-                        iframe.sourceCode(src="#{contextPath}/Pi4jReception.html")
+                        iframe.sourceCode(src="#{iframeContextPath}/Pi4jReception.html")
                     div.tab-pane(role="tabpanel", id="snifferCodeJava", aria-labelledby="sniffer-java-tab")
-                        iframe.sourceCode(src="#{contextPath}/Pi4jTraceReception.html")
+                        iframe.sourceCode(src="#{iframeContextPath}/Pi4jTraceReception.html")
                     div.tab-pane(role="tabpanel", id="emissionCode", aria-labelledby="emission-tab")
-                        iframe.sourceCode(src="#{contextPath}/radioEmission.html")
+                        iframe.sourceCode(src="#{iframeContextPath}/radioEmission.html")
                     div.tab-pane(role="tabpanel", id="receptionCode", aria-labelledby="reception-tab")
-                        iframe.sourceCode(src="#{contextPath}/radioReception.html")
+                        iframe.sourceCode(src="#{iframeContextPath}/radioReception.html")
                     div.tab-pane(role="tabpanel", id="snifferCode", aria-labelledby="sniffer-tab")
-                        iframe.sourceCode(src="#{contextPath}/radioSniffer.html")
+                        iframe.sourceCode(src="#{iframeContextPath}/radioSniffer.html")
 
     script(type='text/javascript').
         $('#codeTabs a').click(function (e) {

@@ -34,7 +34,8 @@ router.get('/gpio', require('connect-ensure-login').ensureLoggedIn(), function(r
     res.render('gpio', {
         user : req.user,
         title : siteTitle,
-        contextPath : config.webApp.rootPath
+        contextPath : config.webApp.rootPath,
+        iframeContextPath : config.webApp.iframeRootPath
     });
 });
 router.get('/login', function(req, res) {
