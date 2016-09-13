@@ -23,9 +23,9 @@ function write(value, state, callback) {
     }
 
     // radioEmission 17 20210234 0 on
-    var child = exec(config.shuttersCommand.programPath + " " + config.shuttersCommand.gpioPin + " 0 " + value + " " + action, function(error, stdout, stderr) {
+    var child = exec(config.shuttersCommand.programPath + ' ' + config.shuttersCommand.gpioPin + ' ' + value + ' ' + action, function(error, stdout, stderr) {
         if (error !== null) {
-            logger.error('exec [' + config.shuttersCommand.programPath + " " + config.shuttersCommand.gpioPin + ' 0 ' + value + ' ' + action + ']: ' + error);
+            logger.error('exec [' + config.shuttersCommand.programPath + ' ' + config.shuttersCommand.gpioPin + ' ' + value + ' ' + action + ']: ' + error);
             if (stdout !== undefined) {
                 logger.info('    stdout: ' + stdout);
             }
@@ -33,7 +33,7 @@ function write(value, state, callback) {
                 logger.info('    stderr: ' + stderr);
             }
         } else {
-            logger.info('exec [' + config.shuttersCommand.programPath + " " + config.shuttersCommand.gpioPin + ' 0 ' + value + ' ' + action + ']: OK');
+            logger.info('exec [' + config.shuttersCommand.programPath + ' ' + config.shuttersCommand.gpioPin + ' ' + value + ' ' + action + ']: OK');
             if (stdout !== undefined) {
                 logger.info('    stdout: ' + stdout);
             }
