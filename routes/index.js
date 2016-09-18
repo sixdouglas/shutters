@@ -10,8 +10,6 @@ var logger = winston.loggers.get('default');
 
 var config = require('../config/config');
 
-logger.debug('config.webApp.rootPath : ' + config.webApp.rootPath);
-
 // ########################################
 // ### Main routes functions
 // ########################################

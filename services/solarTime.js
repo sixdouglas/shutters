@@ -5,7 +5,6 @@ var logger = winston.loggers.get('default');
 
 var config = require('../config/config');
 
-// services/solarTime.js
 function SolarTime() {
 }
 

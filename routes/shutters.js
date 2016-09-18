@@ -17,9 +17,11 @@ var config = require('../config/config');
 
 function renderAll(req, res, ok, shutter) {
     logger.info("get.renderAll(ok, shutter): " + ok + ", " + shutter);
+    var shuttersList = db.shutters.listAllShutters();
+    logger.info("Shutters count: " + shuttersList.length);
     res.render('shutters', {
         user : req.user,
-        shutters : db.shutters.listAllShutters(),
+        shutters : shuttersList,
         shutter : shutter,
         ok : ok,
         title : siteTitle,
