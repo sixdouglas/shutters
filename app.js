@@ -34,8 +34,8 @@ winston.loggers.add('default', {
         handleExceptions : true,
         json : false,
         level : 'silly',
-        label : 'default'
-    // , timestamp : true
+        label : 'default',
+        timestamp : true
     }
 });
 
@@ -45,9 +45,10 @@ var logger = winston.loggers.get('default');
 // ### Scheduling ###
 // ########################################
 var schedule = require('node-schedule');
-var SolarTime = require('./services/solarTime');
 
 var Shutter = require("./services/shuttersCommand");
+var shutterCmd = new Shutter();
+
 // Every days at 1 AM recalculate the today's up and down time
 var rule = new schedule.RecurrenceRule();
 // hour is set to 3:30 to avoid problems with day saving light changes
@@ -57,32 +58,11 @@ rule.minute = config.daySetupScheduler.minute;
 
 logger.info("Everyday scheduler rule: ", rule);
 
-var daySetupScheduler = function() {
-    var solarTime = new SolarTime([]);
+schedule.scheduleJob(rule, shutterCmd.scheduleShutters);
 
-    var upTime = solarTime.getUpTime(new Date(), config.latitude, config.longitude);
-    logger.info("    Today shutters upTime  : " + upTime);
-
-    schedule.scheduleJob(upTime, function() {
-        // Send the Shutters Up signal
-        var shutterCmd = new Shutter();
-        shutterCmd.openAll();
-    });
-
-    var downTime = solarTime.getDownTime(new Date(), config.latitude, config.longitude);
-    logger.info("    Today shutters downTime: " + downTime);
-
-    schedule.scheduleJob(downTime, function() {
-        // Send the Shutters Down signal
-        var shutterCmd = new Shutter();
-        shutterCmd.closeAll();
-    });
-};
-
-schedule.scheduleJob(rule, daySetupScheduler);
-
-// Call the function for the first to set things up.
-daySetupScheduler();
+// Call the function for the first time to set things up for the current day.
+var newScheduleTime = new Date(new Date().getTime() + 5000);
+schedule.scheduleJob(newScheduleTime, shutterCmd.scheduleShutters);
 
 // ########################################
 // ### Request logging ###
