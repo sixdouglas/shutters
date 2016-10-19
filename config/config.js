@@ -1,7 +1,7 @@
 var config = {
     webApp : {
-        rootPath : "/homeTech",
-        iframeRootPath : "/homeTech"
+        rootPath : "",
+        iframeRootPath : ""
     },
     longitude : 2.8842,
     latitude : 50.6917,

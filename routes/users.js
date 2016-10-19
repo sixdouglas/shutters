@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var winston = require('winston');
-var logger = winston.loggers.get('default');
+var logger = require('../utils').logger.main;
 
 var i18n = require("i18n");
 var siteTitle = i18n.__("siteTitle");
@@ -49,8 +48,9 @@ function postEdit(req, res) {
         };
 
         // hashing the password if it has not been hashed yet
-        var passwordHash = require('password-hash');
-        var hashed = passwordHash.generate(req.body.password);
+        var bcrypt = require('bcrypt');
+        const saltRounds = 10;
+        var hashed = bcrypt.hashSync(req.body.password, saltRounds);
 
         // update the dabatase
         db.users.update(req.params.id, req.body.username, req.body.displayName, req.body.email, req.body.password, function(err, user) {

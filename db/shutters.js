@@ -1,6 +1,5 @@
 var database = require('./database');
-var winston = require('winston');
-var logger = winston.loggers.get('default');
+var logger = require('../utils').logger.main;
 
 // ########################################
 // ### Shutters DB functions

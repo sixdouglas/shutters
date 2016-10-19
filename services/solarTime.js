@@ -1,7 +1,6 @@
 var sunCalc = require('suncalc');
 var timezoner = require('timezoner');
-var winston = require('winston');
-var logger = winston.loggers.get('default');
+var logger = require('../utils').logger.main;
 
 var config = require('../config/config');
 

@@ -25,21 +25,7 @@ i18n.configure({
 // ### Application logging ###
 // ########################################
 
-var winston = require('winston');
-
-// setup default logger (no category)
-winston.loggers.add('default', {
-    console : {
-        colorize : 'true',
-        handleExceptions : true,
-        json : false,
-        level : 'silly',
-        label : 'default',
-        timestamp : true
-    }
-});
-
-var logger = winston.loggers.get('default');
+var logger = require('./utils').logger.main;
 
 // ########################################
 // ### Scheduling ###
@@ -79,7 +65,7 @@ var db = require('./db');
 // ########################################
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
-var passwordHash = require('password-hash');
+var bcrypt = require('bcrypt');
 
 // Configure the local strategy for use by Passport.
 
@@ -97,9 +83,8 @@ passport.use(new Strategy(function(username, password, cb) {
             logger.info("Username: " + username + ", not right user.");
             return cb(null, false);
         }
-        logger.info("Username: " + username + ", password: " + user.password + ", hashed: " + password + ", isHashed: " + passwordHash.isHashed(password) + ", verify: "
-                + passwordHash.verify(password, user.password) + ", generate: " + passwordHash.generate(password));
-        if ((passwordHash.isHashed(user.password) && !passwordHash.verify(password, user.password)) || (!passwordHash.isHashed(user.password) && password !== user.password)) {
+        logger.info("Username: " + username + ", password: " + password + ", hashed: " + user.password + ", compare: " + bcrypt.compareSync(password, user.password));
+        if (!bcrypt.compareSync(password, user.password)) {
             logger.info("Username: " + username + ", not right password.");
             return cb(null, false);
         }
@@ -143,7 +128,7 @@ app.use(i18n.init);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, '/public/', 'favicon.ico')));

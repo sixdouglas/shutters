@@ -6,7 +6,7 @@ var i18n = require("i18n");
 var siteTitle = i18n.__("siteTitle");
 
 var winston = require('winston');
-var logger = winston.loggers.get('default');
+const logger = winston.loggers.get('main');
 
 var config = require('../config/config');
 

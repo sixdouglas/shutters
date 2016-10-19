@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
-var winston = require('winston');
-var logger = winston.loggers.get('default');
+var logger = require('../utils').logger.main;
 
-var monitoringService = require("../services/monitoring");
+var Service = require("../services/monitoring");
+var monitoringService = new Service();
 
 var i18n = require("i18n");
 var siteTitle = i18n.__("siteTitle");

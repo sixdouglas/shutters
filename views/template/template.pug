@@ -69,17 +69,17 @@ mixin shutterLine(contextPath, index, shutter)
                 span.glyphicon.glyphicon-remove(aria-hidden="true")
         
 mixin shuttersTable(contextPath, shutters)
-      table.table.table-bordered.table-striped.table-condensed.table-hover.table-slim.text-center
-         thead
-                tr
-                    th.text-center #{__("shutters.name")}
-                    th.text-center #{__("shutters.state")}
-                    th.text-center 
-                        a(href=contextPath + "/shutters/add")
-                            span.glyphicon.glyphicon-plus(aria-hidden="true")
-          tbody
-                each shutter, index in shutters
-                    +shutterRow(index, shutter)
+    table.table.table-bordered.table-striped.table-condensed.table-hover.table-slim.text-center
+        thead
+            tr
+                th.text-center #{__("shutters.name")}
+                th.text-center #{__("shutters.state")}
+                th.text-center
+                    a(href=contextPath + "/shutters/add")
+                        span.glyphicon.glyphicon-plus(aria-hidden="true")
+        tbody
+            each shutter, index in shutters
+                +shutterRow(index, shutter)
 
 
 mixin shutterRow(contextPath, index, shutter)

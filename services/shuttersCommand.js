@@ -1,5 +1,4 @@
-var winston = require('winston');
-var logger = winston.loggers.get('default');
+var logger = require('../utils').logger.main;
 var exec = require('child_process').exec;
 var execSync = require('child_process').execSync;
 var db = require('../db');
@@ -39,12 +38,6 @@ function write(value, state, callback) {
             }
         } else {
             logger.info('exec [' + config.shuttersCommand.programPath + ' ' + config.shuttersCommand.gpioPin + ' ' + value + ' ' + action + ']: OK');
-            //            if (stdout !== undefined) {
-            //                logger.info('    stdout: ' + stdout);
-            //            }
-            //            if (stderr !== undefined) {
-            //                logger.info('    stderr: ' + stderr);
-            //            }
             if (callback !== undefined) {
                 callback();
             }
@@ -70,29 +63,6 @@ function writeSync(value, state, callback) {
     } catch (error) {
         logger.error('execSync [' + config.shuttersCommand.programPath + ' ' + config.shuttersCommand.gpioPin + ' ' + value + ' ' + action + ']: ' + error);
     }
-
-    /*function(error, stdout, stderr) {
-        if (error !== null) {
-            logger.error('exec [' + config.shuttersCommand.programPath + ' ' + config.shuttersCommand.gpioPin + ' ' + value + ' ' + action + ']: ' + error);
-            if (stdout !== undefined) {
-                logger.info('    stdout: ' + stdout);
-            }
-            if (stderr !== undefined) {
-                logger.info('    stderr: ' + stderr);
-            }
-        } else {
-            logger.info('exec [' + config.shuttersCommand.programPath + ' ' + config.shuttersCommand.gpioPin + ' ' + value + ' ' + action + ']: OK');
-            //            if (stdout !== undefined) {
-            //                logger.info('    stdout: ' + stdout);
-            //            }
-            //            if (stderr !== undefined) {
-            //                logger.info('    stderr: ' + stderr);
-            //            }
-            if (callback !== undefined) {
-                callback();
-            }
-        }
-    });*/
 }
 
 function closeOne(key) {
@@ -159,7 +129,5 @@ function scheduleShutters() {
 Shutter.prototype.scheduleShutters = scheduleShutters;
 Shutter.prototype.closeOne = closeOne;
 Shutter.prototype.openOne = openOne;
-//Shutter.prototype.closeAll = closeAll;
-//Shutter.prototype.openAll = openAll;
 
 module.exports = Shutter;

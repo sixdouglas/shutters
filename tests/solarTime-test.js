@@ -3,7 +3,7 @@ chai.use(require('chai-datetime'));
 var expect = chai.expect; // we are using the "expect" style of Chai
 var SolarTime = require('./../services/solarTime');
 var winston = require('winston');
-var logger = winston.loggers.get('default');
+const logger = winston.loggers.get('main');
 
 describe('SolarTime Sunrise 2016/05/04', function() {
     // **************************

@@ -1,5 +1,4 @@
-var winston = require('winston');
-var logger = winston.loggers.get('default');
+var logger = require('../utils').logger.main;
 var exec = require('child_process').exec;
 var fs = require("fs");
 

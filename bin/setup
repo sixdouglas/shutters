@@ -4,29 +4,18 @@
 
 var menu = require('node-menu');
 var db = require('../db');
- 
-var TestObject = function() {
-    var self = this;
-    self.fieldA = 'FieldA';
-    self.fieldB = 'FieldB';
-}
- 
-TestObject.prototype.printFieldA = function() {
-    console.log(this.fieldA);
-}
- 
-TestObject.prototype.printFieldB = function(arg) {
-    console.log(this.fieldB + arg);
-}
- 
-var testObject = new TestObject();
- 
+var logger = require('../utils').logger.main;
+
 menu.addDelimiter('-', 40, 'Main Menu')
     .addItem(
         'Add User',
         function(displayName, login, password, email) {
-            db.users.insert(login, displayName, email, password, function (thing, doc) {
-                console.log("User inserted successfully !");
+            var bcrypt = require('bcrypt');
+            const saltRounds = 10;
+            var hashed = bcrypt.hashSync(password, saltRounds);
+
+            db.users.insert(login, displayName, email, hashed, function (thing, doc) {
+                logger.info("User inserted successfully !");
             });
         },
         null,
@@ -35,7 +24,7 @@ menu.addDelimiter('-', 40, 'Main Menu')
         'Add Shutter',
         function(name, displayName, remoteControlKey, state) {
             db.shutters.insert(name, displayName, remoteControlKey, state, function (thing, doc) {
-                console.log("Shutter inserted successfully !");
+                logger.info("Shutter inserted successfully !");
             });
         },
         null,

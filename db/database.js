@@ -1,6 +1,3 @@
-var winston = require('winston');
-var logger = winston.loggers.get('default');
-
 // ########################################
 // ### Database Configuration ###
 // ########################################

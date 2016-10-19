@@ -1,3 +1,9 @@
 node_modules
 /db/*.db
 /logs/*.log
+
+/bin/db/*.db
+/bin/logs/*.log
+package-lock.json
+
+.idea

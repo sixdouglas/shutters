@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var winston = require('winston');
-var logger = winston.loggers.get('default');
+var logger = require('../utils').logger.main;
 
 var Shutter = require("../services/shuttersCommand");
 

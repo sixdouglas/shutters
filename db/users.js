@@ -1,7 +1,7 @@
 var database = require('./database');
-var winston = require('winston');
-var passwordHash = require('password-hash');
-var logger = winston.loggers.get('default');
+var logger = require('../utils').logger.main;
+var bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 // ########################################
 // ### User DB functions
@@ -36,12 +36,8 @@ exports.findByUsername = function(username, cb) {
     });
 };
 
-exports.update = function(id, username, displayName, email, password, cb) {
+exports.update = function(id, username, displayName, email, hashed, cb) {
     logger.info('update(User): ' + id + ', username: ' + username);
-    var hashed = password;
-    if (!passwordHash.isHashed(password)) {
-        hashed = passwordHash.generate(password);
-    }
     database.users.update({
         _id : id
     }, {
@@ -70,12 +66,8 @@ exports.update = function(id, username, displayName, email, password, cb) {
     });
 };
 
-exports.insert = function(username, displayName, email, password, cb) {
+exports.insert = function(username, displayName, email, hashed, cb) {
     logger.info('insert(User): username: ' + username);
-    var hashed = password;
-    if (!passwordHash.isHashed(password)) {
-        hashed = passwordHash.generate(password);
-    }
     database.users.insert({
         username : username,
         displayName : displayName,

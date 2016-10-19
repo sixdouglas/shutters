@@ -15,9 +15,9 @@ Actually all the job is done in the /routes/shutters.js function *renderAction*.
 
 For the list of shutters and the user, I'm using the [NeDB](https://github.com/louischatriot/nedb). This is a Mongo like in-memory database. The DB content is saved on the HDD in the db directory.
 
-The web framework is [Express](https://github.com/expressjs/express) using Jade templating format.
+The web framework is [Express](https://github.com/expressjs/express) using Pug templating format.
 
-The password is encrypted using [Password-Hash](https://github.com/davidwood/password-hash).
+The password is encrypted using [bcrypt](https://github.com/kelektiv/node.bcrypt.js).
 
 The authentication is made using [Passport](https://github.com/jaredhanson/passport) and [Passport-local](https://github.com/jaredhanson/passport-local).
 
@@ -26,9 +26,10 @@ The authentication is made using [Passport](https://github.com/jaredhanson/passp
 In order to make this work, follow these steps:
 
 1. `npm install` to download the dependencies
-2. update the user setting in the db/database.js more specifically the content of the user object: 
+2. On linux there is the `bin/setup` shell script to add element in databases.
+   update the user setting in the db/database.js more specifically the content of the user object:
 ```
-    var hashed = passwordHash.generate('six');
+    var hashed = bcrypt.hashSync('six');
     dbs.users.insert([ {
         username : 'douglas',
         password : hashed,
@@ -36,7 +37,7 @@ In order to make this work, follow these steps:
         email : 'six.douglas@gmail.com'
     }
 ```
-3. update the shutters settings in the db/database.js:
+   update the shutters settings in the db/database.js:
 ```
     dbs.shutters.insert([ {
         name : 'LivingRoom',
